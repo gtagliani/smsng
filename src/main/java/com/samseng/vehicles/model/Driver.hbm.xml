@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 23/01/2018 19:32:52 by Hibernate Tools 5.2.3.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="smsngvcls" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.samseng.vehicles.model.Driver" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="Driver">
+        <id name="id" type="java.lang.Integer">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="com.samseng.vehicles.model.Company" embed-xml="true" fetch="select" insert="true" name="company" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="CompanyId" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="documentNumber" optimistic-lock="true" type="string" unique="false">
+            <column length="30" name="documentNumber" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="name" optimistic-lock="true" type="string" unique="false">
+            <column length="100" name="name" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="driverLicenceExpireDate" optimistic-lock="true" type="date" unique="false">
+            <column length="10" name="driverLicenceExpireDate"/>
+        </property>
+        <property generated="never" lazy="false" name="assuranceWorkRiskExpireDate" optimistic-lock="true" type="date" unique="false">
+            <column length="10" name="assuranceWorkRiskExpireDate"/>
+        </property>
+        <property generated="never" lazy="false" name="driverLicenceNumber" optimistic-lock="true" type="string" unique="false">
+            <column length="50" name="driverLicenceNumber"/>
+        </property>
+        <property generated="never" lazy="false" name="afipdata" optimistic-lock="true" type="string" unique="false">
+            <column length="100" name="AFIPData"/>
+        </property>
+        <property generated="never" lazy="false" name="telephone" optimistic-lock="true" type="string" unique="false">
+            <column length="50" name="Telephone"/>
+        </property>
+        <property generated="never" lazy="false" name="deleted" optimistic-lock="true" type="short" unique="false">
+            <column name="deleted" not-null="true"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="vehicleRegistereds" optimistic-lock="true" sort="unsorted" table="DriversRegistred">
+            <key on-delete="noaction">
+                <column name="Driver_id" not-null="true"/>
+            </key>
+            <many-to-many embed-xml="true" entity-name="com.samseng.vehicles.model.VehicleRegistered" not-found="exception" unique="false">
+                <column name="VehicleRegistered_id" not-null="true"/>
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

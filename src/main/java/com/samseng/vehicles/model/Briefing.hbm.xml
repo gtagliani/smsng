@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 23/01/2018 19:32:52 by Hibernate Tools 5.2.3.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="smsngvcls" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.samseng.vehicles.model.Briefing" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="Briefing">
+        <id name="id" type="java.lang.Integer">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="shortDescription" optimistic-lock="true" type="string" unique="false">
+            <column length="100" name="shortDescription" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="longDescription" optimistic-lock="true" type="string" unique="false">
+            <column name="longDescription"/>
+        </property>
+        <property generated="never" lazy="false" name="deleted" optimistic-lock="true" type="java.lang.Short" unique="false">
+            <column name="deleted"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="briefingQuestionses" optimistic-lock="true" sort="unsorted" table="BriefingQuestions">
+            <key on-delete="noaction">
+                <column name="BriefingsId" not-null="true"/>
+            </key>
+            <one-to-many class="com.samseng.vehicles.model.BriefingQuestions" embed-xml="true" not-found="exception"/>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="vehicleTypes" optimistic-lock="true" sort="unsorted" table="VehicleType">
+            <key on-delete="noaction">
+                <column name="BriefingId" not-null="true"/>
+            </key>
+            <one-to-many class="com.samseng.vehicles.model.VehicleType" embed-xml="true" not-found="exception"/>
+        </set>
+    </class>
+</hibernate-mapping>

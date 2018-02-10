@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 23/01/2018 19:32:52 by Hibernate Tools 5.2.3.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="smsngvcls" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.samseng.vehicles.model.CompanyType" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="CompanyType">
+        <id name="id" type="java.lang.Integer">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="description" optimistic-lock="true" type="string" unique="false">
+            <column length="200" name="Description" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="deleted" optimistic-lock="true" type="short" unique="false">
+            <column name="deleted" not-null="true"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="companies" optimistic-lock="true" sort="unsorted" table="Company">
+            <key on-delete="noaction">
+                <column name="CompaniesTypeId" not-null="true"/>
+            </key>
+            <one-to-many class="com.samseng.vehicles.model.Company" embed-xml="true" not-found="exception"/>
+        </set>
+    </class>
+</hibernate-mapping>

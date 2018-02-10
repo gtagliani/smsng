@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 23/01/2018 19:32:52 by Hibernate Tools 5.2.3.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="smsngvcls" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.samseng.vehicles.model.Vehicle" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="Vehicle">
+        <id name="id" type="int">
+            <column name="id"/>
+            <generator class="assigned"/>
+        </id>
+        <many-to-one class="com.samseng.vehicles.model.Company" embed-xml="true" fetch="select" insert="true" name="company" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="CompanyId" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="com.samseng.vehicles.model.VehicleType" embed-xml="true" fetch="select" insert="true" name="vehicleType" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="VehicleTypeId" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="vehicleId" optimistic-lock="true" type="string" unique="false">
+            <column length="15" name="vehicleId" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="trailerId" optimistic-lock="true" type="string" unique="false">
+            <column length="15" name="trailerId"/>
+        </property>
+        <property generated="never" lazy="false" name="needAutorization" optimistic-lock="true" type="java.lang.Short" unique="false">
+            <column name="needAutorization"/>
+        </property>
+        <property generated="never" lazy="false" name="permissionDenegated" optimistic-lock="true" type="short" unique="false">
+            <column name="permissionDenegated" not-null="true"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="vehicleRegistereds" optimistic-lock="true" sort="unsorted" table="VehicleRegistered">
+            <key on-delete="noaction">
+                <column name="VehicleId" not-null="true"/>
+            </key>
+            <one-to-many class="com.samseng.vehicles.model.VehicleRegistered" embed-xml="true" not-found="exception"/>
+        </set>
+    </class>
+</hibernate-mapping>

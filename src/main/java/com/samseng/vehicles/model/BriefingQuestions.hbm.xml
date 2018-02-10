@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 23/01/2018 19:32:52 by Hibernate Tools 5.2.3.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="smsngvcls" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.samseng.vehicles.model.BriefingQuestions" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="BriefingQuestions">
+        <id name="id" type="java.lang.Integer">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="com.samseng.vehicles.model.Briefing" embed-xml="true" fetch="select" insert="true" name="briefing" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="BriefingsId" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="question" optimistic-lock="true" type="string" unique="false">
+            <column length="150" name="question" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="deleted" optimistic-lock="true" type="short" unique="false">
+            <column name="deleted" not-null="true"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="vehicleRegisteredCheckLists" optimistic-lock="true" sort="unsorted" table="VehicleRegisteredCheckList">
+            <key on-delete="noaction">
+                <column name="BriefingQuestionsId" not-null="true"/>
+            </key>
+            <one-to-many class="com.samseng.vehicles.model.VehicleRegisteredCheckList" embed-xml="true" not-found="exception"/>
+        </set>
+    </class>
+</hibernate-mapping>

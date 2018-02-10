@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 23/01/2018 19:32:52 by Hibernate Tools 5.2.3.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="smsngvcls" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.samseng.vehicles.model.Users" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="Users">
+        <id name="username" type="string">
+            <column length="50" name="username"/>
+            <generator class="assigned"/>
+        </id>
+        <property generated="never" lazy="false" name="password2" optimistic-lock="true" type="string" unique="false">
+            <column length="50" name="password_2" not-null="true"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="sectors" optimistic-lock="true" sort="unsorted" table="Approver">
+            <key on-delete="noaction">
+                <column length="50" name="UsersUsername" not-null="true"/>
+            </key>
+            <many-to-many embed-xml="true" entity-name="com.samseng.vehicles.model.Sector" not-found="exception" unique="false">
+                <column name="SectorId" not-null="true"/>
+            </many-to-many>
+        </set>
+        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="authoritieses" optimistic-lock="true" sort="unsorted" table="authorities">
+            <key on-delete="noaction">
+                <column length="50" name="username" not-null="true"/>
+            </key>
+            <one-to-many class="com.samseng.vehicles.model.Authorities" embed-xml="true" not-found="exception"/>
+        </set>
+    </class>
+</hibernate-mapping>

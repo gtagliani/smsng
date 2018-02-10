@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 23/01/2018 19:32:52 by Hibernate Tools 5.2.3.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="smsngvcls" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.samseng.vehicles.model.VehicleRegisteredCheckList" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="VehicleRegisteredCheckList">
+        <composite-id class="com.samseng.vehicles.model.VehicleRegisteredCheckListId" mapped="false" name="id" unsaved-value="undefined">
+            <key-property name="vehicleRegisteredId" type="int">
+                <column name="VehicleRegisteredId"/>
+            </key-property>
+            <key-property name="briefingQuestionsId" type="int">
+                <column name="BriefingQuestionsId"/>
+            </key-property>
+        </composite-id>
+        <many-to-one class="com.samseng.vehicles.model.BriefingQuestions" embed-xml="true" fetch="select" insert="false" name="briefingQuestions" not-found="exception" optimistic-lock="true" unique="false" update="false">
+            <column name="BriefingQuestionsId" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="com.samseng.vehicles.model.VehicleRegistered" embed-xml="true" fetch="select" insert="false" name="vehicleRegistered" not-found="exception" optimistic-lock="true" unique="false" update="false">
+            <column name="VehicleRegisteredId" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="passed" optimistic-lock="true" type="short" unique="false">
+            <column name="passed" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="observations" optimistic-lock="true" type="string" unique="false">
+            <column name="observations"/>
+        </property>
+    </class>
+</hibernate-mapping>
