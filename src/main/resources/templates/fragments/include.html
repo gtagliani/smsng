@@ -1,0 +1,96 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+</th:block>
+
+<th:block th:fragment="head_tables">
+	<!--  tables help&reference: http://live.datatables.net/vetuziru/69/edit -->
+	<!-- http://matera.com/br/2017/02/16/crud-com-spring-e-thymeleaf/ -->
+
+
+	<link href="/webjars/datatables/1.10.16/css/jquery.dataTables.min.css"
+		rel="stylesheet" type="text/css" />
+	<script src="/webjars/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
+</th:block>
+<th:block th:fragment="head_font_awesome">
+<link href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"
+		rel="stylesheet" media="screen">
+	</link>
+</th:block>
+<th:block th:fragment="head_jquery">
+	<script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+</th:block>
+<th:block th:fragment="head_bootstrap">
+	<script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<link href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css"
+		rel="stylesheet" media="screen">
+	</link>
+</th:block>
+
+<th:block th:fragment="styleTable">
+	<style type="text/css">
+body {
+	font: 90%/1.45em "Helvetica Neue", HelveticaNeue, Verdana, Arial,
+		Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-color: #fff;
+}
+</style>
+</th:block>
+
+<th:block th:fragment="tableHook (tableName, entityName)">
+	<script th:inline="javascript" type="text/javascript">
+	    $(document).ready( function () {
+	    	  var tn=[[${tableName}]];
+	    	  var table = $('#'+tn).DataTable();
+	    	  var ent = [[${entityName}]];
+	    	  
+	    	  //Button functionality
+	    	  $('button' ).click(function() {
+	    		   var bid = this.id; // button ID
+	    		   var trid = $(this).closest('tr');
+	    		   var tds =trid.find("td:nth-child(1)");
+	    		   var act;
+	    		   
+	    		   if (bid=='edit'){
+	    			   var tr = $("#form-body");
+	    			   var path = '/'+ent+'/ajax/'+bid+'/'+tds.text();
+	    			   //alert(path);
+						tr.load(path);  
+	    	  		$("#modalForm").modal();
+	    		   }else {
+	    			   var got0="/"+ent+"/"+bid+"/"+ tds.text();
+		    		   //alert("go to: " + got0);
+		    		   window.location.href = got0;   
+	    		   }
+	    		   	    		   
+	    		   
+	    		   
+	    		 });
+	    
+	    } );
+	    
+	    
+	    function newItemFunction(){
+	    	
+	    	alert('newItemFunction');
+	    	
+	    	var ent = [[${entityName}]];
+	    	var got0="/"+ent+"/ajax/add";
+	    	var tr = $("#form-body");
+	    	tr.load(got0);
+	    	
+    		$("#modalForm").modal();
+    		
+    		return false;
+	    }
+	    
+	    </script>
+</th:block>
+
+</html>

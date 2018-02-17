@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1" name="viewport"
+	content="width=device-width, initial-scale=1.0">
+</meta>
+<link href="webjars/bootstrap/4.0.0/css/bootstrap.min.css"
+	rel="stylesheet" media="screen">
+</link>
+
+<script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+<link href="webjars/datatables/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+<script src="/webjars/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+
+<link href="webjars/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet" media="screen">
+</link>
+
+
+<title>Company Types</title>
+
+</head>
+<body>
+<script th:inline="javascript">
+
+
+$(function() {
+		
+		console.log( "ready!" );
+	
+		$("#filter").keyup(function () {
+						var tr = $("#table-result");
+						var fs = $("#filter").serialize();
+						tr.load('/ajax/companyFind', fs);
+		  					});
+		
+		
+			//$("#table-result").load('/ajax/companyFind', $("#filter").serialize());
+		
+			
+		$(document).ready( function () {
+			  var table = $('#mainTable').DataTable();
+			} );
+		
+	});
+
+ 
+</script>
+
+	<div class="container">
+		<h2>Company Types</h2>
+		
+					<div class="input-group add-on">
+						<input class="form-control" placeholder="Filter Field" name="filter"
+							id="filter" type="text">
+						<div class="input-group-btn">
+							<button class="btn btn-info" >
+								<span class="fa fa-search"></span> 
+							</button>
+						</div>
+						</input>
+					</div>
+		
+		<div th:fragment="result" id="table-result">
+		<table  id="mainTable" class="display nowrap" width="100%" >
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+			
+				<tr  th:each="cmp : ${companies}">
+					<td th:text="${cmp.id}">ID</td>
+					<td th:text="${cmp.description}">Description</td>
+					
+				
+					<td class="col-md-2">
+					<button class="pull-right btn btn-info ml-1" >
+								<span class="fa fa-edit"></span> 
+							</button>
+							<button class="pull-right btn btn-info " >
+								<span class="fa fa-trash "></span> 
+							</button> 
+					 
+					</td>
+				
+					
+					
+				</tr>
+			
+			</tbody>
+		</table>
+		</div>
+	</div>
+
+</body>
+</html>

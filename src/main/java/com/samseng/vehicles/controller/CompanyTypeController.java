@@ -67,10 +67,40 @@ public class CompanyTypeController {
          
         service.save(post);
          
-        return "companytypeAdd";
+        return "redirect:/companytype";
+    }
+    
+    @PostMapping("/companytype/ajax/save")
+    public String ajaxSave(@Valid CompanyType post, BindingResult result,Model model) {
+         
+        if(result.hasErrors()) {
+        	add(post, model);
+        	return "companytypeAdd :: form (mode='popup')";
+        }
+         
+        service.save(post);
+         
+        return "companytypeAdd :: form (mode='popup')";
     }
 	
+	@GetMapping("/companytype/ajax/edit/{id}")
+	public String ajaxCompanyFind(@PathVariable("id") Integer id, Model model) {
+		add(service.findOne(id), model);
+		
+		log.info("AJAX find");
+		
+		return "companytypeAdd :: form (mode='popup')";
+	}
 	
+	@GetMapping("/companytype/ajax/add")
+    public String ajaxAdd(CompanyType companyType,Model model) {
+		log.info("ajax company type controller");
+		model.addAttribute("companyType", companyType);
+        return "companytypeAdd :: form (mode='popup')";
+        
+    }
+
+    
 //	@GetMapping("/ajax/companyFind")
 //    public String ajaxCompanyFind(@RequestParam("filter") String filter,Model model) {
 //		log.info("company find controller. Filter " + filter);
