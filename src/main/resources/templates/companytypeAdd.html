@@ -8,9 +8,7 @@
   <div th:replace="fragments/include :: head_jquery"></div>
   <div th:replace="fragments/include :: head_font_awesome"></div>
   <div th:replace="fragments/include :: head_bootstrap"></div>
-  
-
-
+  <div th:replace="fragments/include :: notification"></div>
       
 </head>
 <body>
@@ -19,27 +17,27 @@
 <script th:inline="javascript" type="text/javascript">
 
   $(document).ready( function () {
-	  alert("Here");
+	  //alert("Here");
 		$("#saveButton").click(function(){
 			
 			var ent = 'companytype';
 			var mode = [[${mode}]];
-			alert("1 Mode: " + mode + " Entity: " + ent);
+			//alert("1 Mode: " + mode + " Entity: " + ent);
 			if (mode=='popup'){
-				alert("2 Mode: " + mode + " Entity: " + ent);
+				//alert("2 Mode: " + mode + " Entity: " + ent);
 				   var tr = $("#form-body");
 				   var path = '/'+ent+'/ajax/save/';
 				   var form_data = $('#entityForm').serializeArray();
-				   alert(tr.html());
-				   alert(path);
-				   alert(form_data);
+				   //alert(tr.html());
+				   //alert(path);
+				   //alert(form_data);
 					tr.load(path,form_data);
 					
 					return false;
 			 } else {
-				 alert("3 Mode: " + mode + " Entity: " + ent);
+				 //alert("3 Mode: " + mode + " Entity: " + ent);
 				 $("form").submit(function(){
-					 alert("Mode: " + mode + " Entity: " + ent);
+					 //alert("Mode: " + mode + " Entity: " + ent);
 					 
 				    });
 			 }
@@ -87,7 +85,7 @@
                 </div>
                 <div class="form-group row">
                     <button id="saveButton" class="btn btn-sm btn-primary">Save</button>
-                    <a th:href="@{/}" class="btn btn-sm btn-default">Cancel</a>
+<!--                     <a th:href="@{/}" class="btn btn-sm btn-default">Cancel</a> -->
                 </div>
             </form>
         </div>

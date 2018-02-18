@@ -19,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.samseng.vehicles.model.CompanyType;
 import com.samseng.vehicles.repository.CompanyTypeJpaRepository;
 import com.samseng.vehicles.services.CompanyTypeService;
+import com.samseng.vehicles.services.EventObserverJob;
+import com.samseng.vehicles.sse.EventInfo;
 
 @Controller
 public class CompanyTypeController {
@@ -26,6 +28,9 @@ public class CompanyTypeController {
 	
 	@Autowired
 	CompanyTypeService service;
+	
+	@Autowired
+	EventObserverJob eventService;
 	
 	@GetMapping("/companytype")
     public String findAll(Model model) {
@@ -72,13 +77,23 @@ public class CompanyTypeController {
     
     @PostMapping("/companytype/ajax/save")
     public String ajaxSave(@Valid CompanyType post, BindingResult result,Model model) {
-         
+        
+    	EventInfo ei;
+    	
         if(result.hasErrors()) {
+        	ei = new EventInfo(EventObserverJob.NotifyTypes.danger.toString(), "Check the input. Something is wrong.");
+        	eventService.notify(ei);
         	add(post, model);
-        	return "companytypeAdd :: form (mode='popup')";
-        }
+        	//return "companytypeAdd :: form (mode='popup')";
+        } else {
          
         service.save(post);
+        
+        add(new CompanyType(), model);
+        ei = new EventInfo(EventObserverJob.NotifyTypes.info.toString(), "Information added succesfully to the database");
+        eventService.notify(ei);
+        
+    }
          
         return "companytypeAdd :: form (mode='popup')";
     }
@@ -96,8 +111,7 @@ public class CompanyTypeController {
     public String ajaxAdd(CompanyType companyType,Model model) {
 		log.info("ajax company type controller");
 		model.addAttribute("companyType", companyType);
-        return "companytypeAdd :: form (mode='popup')";
-        
+        return "companytypeAdd :: form (mode='popup')";   
     }
 
     
