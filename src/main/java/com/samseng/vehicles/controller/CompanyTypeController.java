@@ -6,6 +6,8 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +27,45 @@ import com.samseng.vehicles.sse.EventInfo;
 
 @Controller
 public class CompanyTypeController {
+	
+	//https://datatables.net/examples/ajax/null_data_source.html
+	//https://datatables.net/examples/ajax/custom_data_flat.html
+	
 	static Logger log = Logger.getLogger(CompanyTypeController.class.getName());
+	
+	
+	private static final String ENTITY_TYPE ="companyType";
+	private static final String ROOT_NAME = ENTITY_TYPE.toLowerCase();
+	
+	@Value("${companyType.title:No encontrado}")
+	private String TITLE;
+	
+	private static final String TEMPLATE_ADD = ROOT_NAME+"Add";
+	
+	private static final String ENTITY_RECORDS ="entityRecords";
+	
+	private static final String D = "/";
+	private static final String ROOT_MAPPING=D+ROOT_NAME;
+	private static final String ROOT_MAPPING_AJAX=ROOT_MAPPING+D+"ajax";
+	
+	private static final String TABLE_MAPPING=ROOT_MAPPING+D+"table";
+	
+	private static final String ADD_RECORD_MAPPING=ROOT_MAPPING+D+"add";
+	private static final String ADD_RECORD_AJAX_MAPPING = ROOT_MAPPING_AJAX+D+"add";
+	
+	private static final String DELETE_RECORD_MAPPING=ROOT_MAPPING+D+"delete";
+	private static final String DELETE_RECORD_MAPPING_ID=DELETE_RECORD_MAPPING+D+"{id}";
+	
+	private static final String SAVE_RECORD_AJAX_MAPPING =ROOT_MAPPING_AJAX+D+"save";
+	
+	private static final String EDIT_RECORD_MAPPING=ROOT_MAPPING+D+"edit"+D+"{id}";
+	private static final String EDIT_RECORD_AJAX_MAPPING_ID = ROOT_MAPPING_AJAX+D+"edit"+D+"{id}";
+
+	private static final String POPUP = " :: form (mode='popup')";
+
+	private static final String TEMPLATE_ADD_POPUP = TEMPLATE_ADD + POPUP;
+	
+	
 	
 	@Autowired
 	CompanyTypeService service;
@@ -33,46 +73,47 @@ public class CompanyTypeController {
 	@Autowired
 	EventObserverJob eventService;
 	
-	@GetMapping("/companytype/table")
+	@GetMapping(TABLE_MAPPING)
 	@ResponseBody
-	//https://datatables.net/examples/ajax/null_data_source.html
-	//https://datatables.net/examples/ajax/custom_data_flat.html
 	public List <CompanyType> dataTable(){
 		return service.findAll();
 	}
 	
-	@GetMapping("/companytype")
+	@GetMapping(ROOT_MAPPING)
     public String findAll(Model model) {
-		log.info("company type controller");
+		log.info(ROOT_NAME +" type controller");
 		List <CompanyType> companies = service.findAll();
-		model.addAttribute("companies", companies);
+		model.addAttribute(ENTITY_RECORDS, companies);
+		model.addAttribute("rootName", ROOT_NAME);
 		
-		return "companytype";
+		return ROOT_NAME;
 	}
 	
-	@GetMapping("/companytype/add")
+	@GetMapping(ADD_RECORD_MAPPING)
     public String add(CompanyType companyType,Model model) {
-		log.info("company type controller");
-		model.addAttribute("companyType", companyType);
-        return "companytypeAdd";
+		log.info(ROOT_NAME + " type controller");
+		model.addAttribute(ENTITY_TYPE, companyType);
+		model.addAttribute("rootName", ROOT_NAME);
+		model.addAttribute("title", TITLE);
+        return TEMPLATE_ADD;
         
     }
 	
-	@GetMapping("/companytype/edit/{id}")
+	@GetMapping(EDIT_RECORD_MAPPING)
     public String edit(@PathVariable("id") Integer id,Model model) {
          
         return add(service.findOne(id), model);
     }
      
-    @GetMapping("/companytype/delete/{id}")
+    @GetMapping(DELETE_RECORD_MAPPING_ID)
     public String delete(@PathVariable("id") Integer id, Model model) {
          
         service.toggleDelete(id);
          
-        return "redirect:/companytype";
+        return "redirect:/"+ROOT_NAME;
     }
 // 
-    @PostMapping("/companytype/save")
+    @PostMapping(DELETE_RECORD_MAPPING)
     public String save(@Valid CompanyType post, BindingResult result,Model model) {
          
         if(result.hasErrors()) {
@@ -81,10 +122,10 @@ public class CompanyTypeController {
          
         service.save(post);
          
-        return "redirect:/companytype";
+        return "redirect:/"+ROOT_NAME;
     }
     
-    @PostMapping("/companytype/ajax/save")
+    @PostMapping(SAVE_RECORD_AJAX_MAPPING)
     public String ajaxSave(@Valid CompanyType post, BindingResult result,Model model) {
         
     	EventInfo ei;
@@ -103,33 +144,26 @@ public class CompanyTypeController {
         eventService.notify(ei);
         
     }
-         
-        return "companytypeAdd :: form (mode='popup')";
+        model.addAttribute("rootName", ROOT_NAME);
+        
+        return TEMPLATE_ADD_POPUP;
     }
 	
-	@GetMapping("/companytype/ajax/edit/{id}")
+	@GetMapping(EDIT_RECORD_AJAX_MAPPING_ID)
 	public String ajaxCompanyFind(@PathVariable("id") Integer id, Model model) {
-		add(service.findOne(id), model);
-		
 		log.info("AJAX find");
-		
-		return "companytypeAdd :: form (mode='popup')";
+		add(service.findOne(id), model);
+		model.addAttribute("rootName", ROOT_NAME);
+		return TEMPLATE_ADD_POPUP;
 	}
 	
-	@GetMapping("/companytype/ajax/add")
+	@GetMapping(ADD_RECORD_AJAX_MAPPING)
     public String ajaxAdd(CompanyType companyType,Model model) {
-		log.info("ajax company type controller");
-		model.addAttribute("companyType", companyType);
-        return "companytypeAdd :: form (mode='popup')";   
+		log.info("ajax "+ROOT_NAME+" type controller");
+		model.addAttribute(ENTITY_TYPE, companyType);
+		model.addAttribute("rootName", ROOT_NAME);
+		model.addAttribute("title", TITLE);
+        return TEMPLATE_ADD_POPUP;   
     }
-
     
-//	@GetMapping("/ajax/companyFind")
-//    public String ajaxCompanyFind(@RequestParam("filter") String filter,Model model) {
-//		log.info("company find controller. Filter " + filter);
-//		List <CompanyType> companies = repo.findFirst50ByDescriptionLikeOrderByDescription("%"+filter+"%");
-//		model.addAttribute("companies", companies);
-//		
-//		return "companytype :: result";
-//	}
 }

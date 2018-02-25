@@ -20,7 +20,7 @@
 	  //alert("Here");
 		$("#saveButton").click(function(){
 			
-			var ent = 'companytype';
+			var ent = [[${rootName}]];
 			var mode = [[${mode}]];
 			//alert("1 Mode: " + mode + " Entity: " + ent);
 			if (mode=='popup'){
@@ -59,7 +59,7 @@
             <strong>Add/Edit Company Type</strong>
         </div>
         <div class="panel-body">
-            <form id="entityForm" class="form-horizontal" th:object="${companyType}" th:action="${mode}=='popup'?@{/companytype/ajax/save}:@{/companytype/save}" method="POST" style="margin: 10px">
+            <form id="entityForm" class="form-horizontal" th:object="${companyType}" th:action="${mode}=='popup'?@{${'/'+rootName+'/ajax/save'}}:@{${'/'+rootName+'/save'}}" method="POST" style="margin: 10px">
                 <div class="form-group">
                     <fieldset>
                         <div class="form-group row">

@@ -10,7 +10,7 @@
   <div th:replace="fragments/include :: head_font_awesome"></div>
   <div th:replace="fragments/include :: head_bootstrap"></div>
   <div th:replace="fragments/include :: styleTable"></div>
-  <div th:replace="fragments/include :: tableHook (tableName='example', entityName='companytype')"></div>
+  <div th:replace="fragments/include :: tableHook (tableName='example', entityName=${rootName})"></div>
   <!--  FROM HERE -->
   <div th:replace="fragments/include :: notification"></div>
 
@@ -65,26 +65,6 @@
           </tr>
         </tfoot>
         
-<!--         <tbody> -->
-			
-<!-- 				<tr  th:each="cmp : ${companies}" > -->
-<!-- 					<td  th:class="${cmp.deleted} > 0? 'bg-danger':''" th:text="${cmp.id}">ID</td> -->
-<!-- 					<td th:text="${cmp.description}">Description</td> -->
-					
-				
-<!-- 					<td > -->
-					
-<!-- 						<button id="edit" class="pull-right btn btn-info ml-1"> -->
-<!-- 									<span class="fa fa-edit"></span>  -->
-<!-- 						</button> -->
-						
-<!-- 						<button id="delete" class="pull-right btn btn-info"> -->
-<!-- 							<span th:class="${cmp.deleted} > 0? 'fa fa-rotate-left':'fa fa-trash'"></span>  -->
-<!-- 						</button>  -->
-					
-<!-- 					</td>	 -->
-<!-- 				</tr> -->
-<!-- 			</tbody> -->
 
 		<div type='button' onclick="newItemFunction()" class="btn btn-info"  id="newItemBtn" title="New Item">
       <span  class='fa fa-plus'></span>
