@@ -53,7 +53,7 @@ public class CompanyType extends LogicDelete implements java.io.Serializable {
 	}
 
 	@Column(name = "Description", nullable = false, length = 50)
-	@NotBlank(message = "Is necessary to write a company type's description.")
+	@NotBlank(message = "{companyType.description.blank}")
 	public String getDescription() {
 		return this.description;
 	}
