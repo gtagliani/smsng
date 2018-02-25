@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.samseng.vehicles.model.CompanyType;
@@ -31,6 +32,14 @@ public class CompanyTypeController {
 	
 	@Autowired
 	EventObserverJob eventService;
+	
+	@GetMapping("/companytype/table")
+	@ResponseBody
+	//https://datatables.net/examples/ajax/null_data_source.html
+	//https://datatables.net/examples/ajax/custom_data_flat.html
+	public List <CompanyType> dataTable(){
+		return service.findAll();
+	}
 	
 	@GetMapping("/companytype")
     public String findAll(Model model) {

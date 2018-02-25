@@ -13,8 +13,11 @@
   <div th:replace="fragments/include :: tableHook (tableName='example', entityName='companytype')"></div>
   <!--  FROM HERE -->
   <div th:replace="fragments/include :: notification"></div>
+
   
 <style>
+
+
 #newItemBtn {
  
   position: fixed;
@@ -32,7 +35,7 @@
 
 #newItemBtn:hover {
   background-color: #555;
-}
+}	
 </style>
 
   
@@ -47,6 +50,7 @@
         <thead>
           <tr>
 			<th>ID</th>
+			<th>Deleted</th>
 			<th>Description</th>
 			<th>Actions</th>         
 			</tr>
@@ -55,31 +59,32 @@
         <tfoot>
           <tr>
             <th>ID</th>
+            <th>Deleted</th>
 			<th>Description</th>
 			<th>Actions</th>
           </tr>
         </tfoot>
         
-        <tbody>
+<!--         <tbody> -->
 			
-				<tr  th:each="cmp : ${companies}" >
-					<td  th:class="${cmp.deleted} > 0? 'bg-danger':''" th:text="${cmp.id}">ID</td>
-					<td th:text="${cmp.description}">Description</td>
+<!-- 				<tr  th:each="cmp : ${companies}" > -->
+<!-- 					<td  th:class="${cmp.deleted} > 0? 'bg-danger':''" th:text="${cmp.id}">ID</td> -->
+<!-- 					<td th:text="${cmp.description}">Description</td> -->
 					
 				
-					<td >
+<!-- 					<td > -->
 					
-						<button id="edit" class="pull-right btn btn-info ml-1">
-									<span class="fa fa-edit"></span> 
-						</button>
+<!-- 						<button id="edit" class="pull-right btn btn-info ml-1"> -->
+<!-- 									<span class="fa fa-edit"></span>  -->
+<!-- 						</button> -->
 						
-						<button id="delete" class="pull-right btn btn-info">
-							<span th:class="${cmp.deleted} > 0? 'fa fa-rotate-left':'fa fa-trash'"></span> 
-						</button> 
+<!-- 						<button id="delete" class="pull-right btn btn-info"> -->
+<!-- 							<span th:class="${cmp.deleted} > 0? 'fa fa-rotate-left':'fa fa-trash'"></span>  -->
+<!-- 						</button>  -->
 					
-					</td>	
-				</tr>
-			</tbody>
+<!-- 					</td>	 -->
+<!-- 				</tr> -->
+<!-- 			</tbody> -->
 
 		<div type='button' onclick="newItemFunction()" class="btn btn-info"  id="newItemBtn" title="New Item">
       <span  class='fa fa-plus'></span>

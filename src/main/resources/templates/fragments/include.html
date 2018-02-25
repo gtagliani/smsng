@@ -43,37 +43,97 @@ body {
 </style>
 </th:block>
 
+<th:block th:fragment="actionsOnTable">
+</th:block>
+
 <th:block th:fragment="tableHook (tableName, entityName)">
 	<script th:inline="javascript" type="text/javascript">
+	/*<![CDATA[*/
 	    $(document).ready( function () {
-	    	  var tn=[[${tableName}]];
+	    	
+    	    var mainTable = $('#example').DataTable( {
+    	    	stateSave: true,
+    	        "ajax": {
+    	        "url": "/companytype/table",
+                "dataSrc": ""
+    	        
+    	    	},"columnDefs": [
+	   	            
+	   	            { "render": function (data,type,row){
+	   	            	//console.log(row);
+	   	            	if (row.deleted==1){
+	   	            		//console.log("Hello");
+	   	            		return "<button id='edit' class='pull-right btn btn-info ml-1'><span class='fa fa-edit'></span> </button><button id='delete' class='pull-right btn btn-danger'><span class='fa fa-rotate-left'></span> </button> "
+	   	            	} else {
+	   	            		return "<button id='edit' class='pull-right btn btn-info ml-1'><span class='fa fa-edit'></span> </button><button id='delete' class='pull-right btn btn-info'><span class='fa fa-trash'></span> </button> "
+	   	            	}
+	   	            },
+	   	            "targets": 3
+	   	            },
+	   	            
+    	        ],
+    	    "columns": [
+                { "data": "id" },
+                { "data": "deleted" },
+                { "data": "description" },
+                { "data": "actions" }
+                
+                
+            ]});
+    	    
+    	      var tn=[[${tableName}]];
 	    	  var table = $('#'+tn).DataTable();
 	    	  var ent = [[${entityName}]];
 	    	  
-	    	  //Button functionality
-	    	  $('button' ).click(function() {
+	    	  mainTable.column( 1 ).visible( false );
+	    	  
+	    	  $('#example tbody').on( 'click', 'button', function () {
+	    	        //var data = table.row( $(this).parents('tr') ).data();
+	    	        //alert( data[0] +"'s salary is: "+ data[ 5 ] );
+	    	        
+	    	       
+	    	       var data = table.row( $(this).parents('tr') ).data();
 	    		   var bid = this.id; // button ID
-	    		   var trid = $(this).closest('tr');
-	    		   var tds =trid.find("td:nth-child(1)");
+	    		   //var trid = $(this).closest('tr');
+	    		   //var tds =trid.find("td:nth-child(1)");
 	    		   var act;
 	    		   
 	    		   if (bid=='edit'){
 	    			   var tr = $("#form-body");
-	    			   var path = '/'+ent+'/ajax/'+bid+'/'+tds.text();
+	    			   var path = '/'+ent+'/ajax/'+bid+'/'+data.id;
 	    			   //alert(path);
-						tr.load(path);  
+						tr.load(path);
 	    	  		$("#modalForm").modal();
 	    		   }else {
-	    			   var got0="/"+ent+"/"+bid+"/"+ tds.text();
+	    			   var got0="/"+ent+"/"+bid+"/"+ data.id;
 		    		   //alert("go to: " + got0);
-		    		   window.location.href = got0;   
+		    		   //window.location.href = got0;
+		    		   httpGetAsync(got0,function(){
+		    			   console.log("reload()");
+		    			   mainTable.ajax.reload(null,false);   
+		    		   });
+	    			   
 	    		   }
-	    		   	    		   
-	    		   
-	    		   
-	    		 });
+
+	    	    } );
+	    	
+	    	  $('#modalForm').on('hidden.bs.modal', function () {
+	  	    	console.log("reload table");
+	  	    	mainTable.ajax.reload(null,false);
+	  	    })
 	    
 	    } );
+	
+	    function httpGetAsync(theUrl, callback)
+	    {
+	        var xmlHttp = new XMLHttpRequest();
+	        xmlHttp.onreadystatechange = function() { 
+	            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+	                callback(xmlHttp.responseText);
+	        }
+	        xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+	        xmlHttp.send(null);
+	    }
 	    
 	    
 	    function newItemFunction(){
@@ -90,6 +150,8 @@ body {
     		return false;
 	    }
 	    
+	    
+	    /*]]>*/
 	    </script>
 </th:block>
 
