@@ -23,6 +23,13 @@
 <th:block th:fragment="head_jquery">
 	<script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
 </th:block>
+<th:block th:fragment="head_select2">
+	<script src="/webjars/select2/4.0.3/js/select2.min.js"></script>
+	<link href="/webjars/select2/4.0.3/css/select2.min.css"
+		rel="stylesheet" media="screen">
+	</link>
+</th:block>
+
 <th:block th:fragment="head_bootstrap">
 	<script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<link href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -51,41 +58,10 @@ body {
 	/*<![CDATA[*/
 	    $(document).ready( function () {
 	    	
-    	    var mainTable = $('#example').DataTable( {
-    	    	stateSave: true,
-    	        "ajax": {
-    	        "url": "/companytype/table",
-                "dataSrc": ""
-    	        
-    	    	},"columnDefs": [
-	   	            
-	   	            { "render": function (data,type,row){
-	   	            	//console.log(row);
-	   	            	if (row.deleted==1){
-	   	            		//console.log("Hello");
-	   	            		return "<button id='edit' class='pull-right btn btn-info ml-1'><span class='fa fa-edit'></span> </button><button id='delete' class='pull-right btn btn-danger'><span class='fa fa-rotate-left'></span> </button> "
-	   	            	} else {
-	   	            		return "<button id='edit' class='pull-right btn btn-info ml-1'><span class='fa fa-edit'></span> </button><button id='delete' class='pull-right btn btn-info'><span class='fa fa-trash'></span> </button> "
-	   	            	}
-	   	            },
-	   	            "targets": 3
-	   	            },
-	   	            
-    	        ],
-    	    "columns": [
-                { "data": "id" },
-                { "data": "deleted" },
-                { "data": "description" },
-                { "data": "actions" }
-                
-                
-            ]});
-    	    
-    	      var tn=[[${tableName}]];
-	    	  var table = $('#'+tn).DataTable();
-	    	  var ent = [[${entityName}]];
-	    	  
-	    	  mainTable.column( 1 ).visible( false );
+	    	console.log("Include READY");
+	    	var tn=[[${tableName}]];
+	    	var table = $('#'+tn).DataTable();
+	    	var ent = [[${entityName}]];
 	    	  
 	    	  $('#example tbody').on( 'click', 'button', function () {
 	    	        //var data = table.row( $(this).parents('tr') ).data();
@@ -110,7 +86,7 @@ body {
 		    		   //window.location.href = got0;
 		    		   httpGetAsync(got0,function(){
 		    			   console.log("reload()");
-		    			   mainTable.ajax.reload(null,false);   
+		    			   table.ajax.reload(null,false);   
 		    		   });
 	    			   
 	    		   }
@@ -119,7 +95,7 @@ body {
 	    	
 	    	  $('#modalForm').on('hidden.bs.modal', function () {
 	  	    	console.log("reload table");
-	  	    	mainTable.ajax.reload(null,false);
+	  	    	table.ajax.reload(null,false);
 	  	    })
 	    
 	    } );
@@ -155,6 +131,22 @@ body {
 	    </script>
 </th:block>
 
+<th:block th:fragment="client-notification">
+<script src="/webjars/bootstrap-notify/3.1.3/bootstrap-notify.min.js"></script>
+	<script th:inline="javascript" type="text/javascript">
+	function clint_notify(message, eventType) {
+		$.notify({
+			// options
+			message: message 
+		},{
+			// settings
+			type: eventType,
+			z_index: 2000
+		});
+
+	}
+	</script>
+</th:block>
 <th:block th:fragment="notification">
 <!-- NOTIFICATION FRAGMENT START -->
 	<script src="/webjars/bootstrap-notify/3.1.3/bootstrap-notify.min.js"></script>

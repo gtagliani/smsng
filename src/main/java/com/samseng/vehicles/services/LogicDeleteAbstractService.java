@@ -7,12 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.samseng.vehicles.model.LogicDelete;
+import com.samseng.vehicles.repository.LogicDeleteJpaRepository;
+
 
 
 public abstract class  LogicDeleteAbstractService <T extends LogicDelete ,ID extends Serializable> {
 	
 	@Autowired
-    private JpaRepository<T, ID> repository;
+    private LogicDeleteJpaRepository<T, ID> repository;
+	
+	public List<T> findAllNotDeleted(){ 
+        return repository.findByDeleted((short) 0);
+        
+    }
 	
 	public List<T> findAll() {
         return repository.findAll();

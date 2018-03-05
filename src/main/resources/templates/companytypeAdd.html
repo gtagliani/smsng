@@ -8,7 +8,7 @@
   <div th:replace="fragments/include :: head_jquery"></div>
   <div th:replace="fragments/include :: head_font_awesome"></div>
   <div th:replace="fragments/include :: head_bootstrap"></div>
-  <div th:replace="fragments/include :: notification"></div>
+  <div th:replace="fragments/include :: notification"></div> -->
       
 </head>
 <body>
@@ -56,7 +56,7 @@
 	
     <div class="panel panel-default" >
         <div class="panel-heading">
-            <strong>Add/Edit Company Type</strong>
+            <strong th:text="${title}">TITLE</strong>
         </div>
         <div class="panel-body">
             <form id="entityForm" class="form-horizontal" th:object="${companyType}" th:action="${mode}=='popup'?@{${'/'+rootName+'/ajax/save'}}:@{${'/'+rootName+'/save'}}" method="POST" style="margin: 10px">
@@ -70,14 +70,14 @@
                             </div>
                         </div>                    
                         <div class="form-group row">
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <input type="text" class="form-control input-sm" id="id" th:field="*{id}" readOnly="readonly"/>
                             </div>
                          </div>
                         <div class="form-group row">                                                          
-                            <div class="col-md-4" th:classappend="${#fields.hasErrors('Description')}? 'has-error'">
+                            <div class="col-md-10">
                                 <label>Description</label>
-                                <input type="text" class="form-control input-sm" th:field="*{description}" autofocus="autofocus" placeholder="Company Type´s description" maxlength="50"/>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('description')}? 'is-invalid':'is-valid'" th:field="*{description}" autofocus="autofocus" th:placeholder="companyType.description.placeholder" maxlength="50"/>
                             </div>
                         </div>
                                                 

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    
+    <title>Add-Edit Companies</title>
+    
+  <div th:replace="fragments/include :: head"></div>
+  <div th:replace="fragments/include :: head_jquery"></div>
+  <div th:replace="fragments/include :: head_font_awesome"></div>
+  <div th:replace="fragments/include :: head_bootstrap"></div>
+  <div th:replace="fragments/include :: head_select2"></div>
+  <div th:replace="fragments/include :: notification"></div> -->
+      
+</head>
+<body>
+<div th:fragment="form (mode)">
+
+<script th:inline="javascript" type="text/javascript">
+
+  $(document).ready( function () {
+	  alert("Company ADD Here");
+	  $(document).ready(function() {
+    		$('#companies').select2();
+	  });
+	  
+		$("#saveButton").click(function(){
+			
+			var ent = [[${rootName}]];
+			var mode = [[${mode}]];
+			//alert("1 Mode: " + mode + " Entity: " + ent);
+			if (mode=='popup'){
+				//alert("2 Mode: " + mode + " Entity: " + ent);
+				   var tr = $("#form-body");
+				   var path = '/'+ent+'/ajax/save/';
+				   var form_data = $('#entityForm').serializeArray();
+				   //alert(tr.html());
+				   //alert(path);
+				   //alert(form_data);
+					tr.load(path,form_data);
+					
+					return false;
+			 } else {
+				 //alert("3 Mode: " + mode + " Entity: " + ent);
+				 $("form").submit(function(){
+					 //alert("Mode: " + mode + " Entity: " + ent);
+					 
+				    });
+			 }
+			
+		});
+  });
+
+	 	 
+		 
+	
+
+</script>
+
+
+
+	
+    <div class="panel panel-default" >
+        <div class="panel-heading">
+            <strong th:text="${title}">TITLE</strong>
+        </div>
+        <div class="panel-body">
+            <form id="entityForm" class="form-horizontal" th:object="${company}" th:action="${mode}=='popup'?@{${'/'+rootName+'/ajax/save'}}:@{${'/'+rootName+'/save'}}" method="POST" style="margin: 10px">
+                <div class="form-group">
+                    <fieldset>
+                        <div class="form-group row">
+                            <div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+                                <div th:each="detailedError : ${#fields.detailedErrors()}">
+                                    <span th:text="${detailedError.message}"></span>
+                                </div>
+                            </div>
+                        </div>                    
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <input type="text" class="form-control input-sm" id="id" th:field="*{id}" readOnly="readonly"/>
+                            </div>
+                         </div>
+                        <div class="form-group row">                                                          
+                            <div class="col-md-10">
+                                <label>Name</label>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('name')}? 'is-invalid':'is-valid'" th:field="${company.name}" autofocus="autofocus" th:placeholder="company.name.placeholder" maxlength="100"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">                                                          
+                            <div class="col-md-10">
+                                <label>Company Type</label>
+                                <select id="companies" th:field="*{companyType}">
+								  <option th:each="companyType : ${allCompanyTypes}" 
+								          th:value="${companyType.id}" 
+								          th:text="${companyType.description}">Type of Company</option>
+								</select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">                                                          
+                            <div class="col-md-5">
+                                <label>Cuit</label>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('taxesNumberId')}? 'is-invalid':'is-valid'" th:field="*{taxesNumberId}" autofocus="autofocus" th:placeholder="company.taxesNumberId.placeholder" maxlength="20"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">                                                          
+                            <div class="col-md-10">
+                                <label>Address</label>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('address')}? 'is-invalid':'is-valid'" th:field="*{address}" autofocus="autofocus" th:placeholder="company.address.placeholder" maxlength="100"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">                                                          
+                            <div class="col-md-10">
+                                <label>Telefono</label>
+                                <input  class="form-control input-sm" th:classappend="${#fields.hasErrors('address')}? 'is-invalid':'is-valid'" type="tel" th:field="*{telephone1}" autofocus="autofocus" th:placeholder="company.telephone1.placeholder" maxlength="30"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">                                                          
+                            <div class="col-md-10">
+                                <label>E-Mail</label>
+                                <input class="form-control input-sm" th:classappend="${#fields.hasErrors('email')}? 'is-invalid':'is-valid'" type="email" th:field="*{email}" autofocus="autofocus" th:placeholder="company.email.placeholder" maxlength="30"/>
+                            </div>
+                        </div>
+                                                
+                    </fieldset>
+                </div>
+                <div class="form-group row">
+                    <button id="saveButton" class="btn btn-sm btn-primary">Save</button>
+<!--                     <a th:href="@{/}" class="btn btn-sm btn-default">Cancel</a> -->
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    
+    
+</body>
+</html>

@@ -1,26 +1,25 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-
-
   
-  <title>Company Types</title>
+  <title>Companies</title>
 
   <div th:replace="fragments/include :: head"></div>
   <div th:replace="fragments/include :: head_jquery"></div>
   <div th:replace="fragments/include :: head_tables"></div>
   <div th:replace="fragments/include :: head_font_awesome"></div>
   <div th:replace="fragments/include :: head_bootstrap"></div>
+  <div th:replace="fragments/include :: head_select2"></div>
   <div th:replace="fragments/include :: styleTable"></div>
   
-  <script th:inline="javascript" type="text/javascript">
+<script th:inline="javascript" type="text/javascript">
 	/*<![CDATA[*/
 	    $(document).ready( function () {
-	    	console.log("companyType READY");
+	    	console.log("Company READY");
     	    var mainTable = $('#example').DataTable( {
     	    	stateSave: true,
     	        "ajax": {
-    	        "url": "/companytype/table",
+    	        "url": "/company/table",
                 "dataSrc": ""
     	        
     	    	},"columnDefs": [
@@ -34,16 +33,21 @@
 	   	            		return "<button id='edit' class='pull-right btn btn-info ml-1'><span class='fa fa-edit'></span> </button><button id='delete' class='pull-right btn btn-info'><span class='fa fa-trash'></span> </button> "
 	   	            	}
 	   	            },
-	   	            "targets": 3
+	   	            "targets": 8
 	   	            },
 	   	            
     	        ],
     	    "columns": [
                 { "data": "id" },
                 { "data": "deleted" },
-                { "data": "description" },
-                { "data": "actions" }
                 
+                { "data": "companyType.description" },
+                { "data": "name" },
+                { "data": "taxesNumberId" },
+                { "data": "address" },
+                { "data": "telephone1" },
+                { "data": "email" },
+                { "data": "actions" }
                 
             ]});
     	      
@@ -53,15 +57,9 @@
 	    
 	    /*]]>*/
 	    </script>
-  
-  
   <div th:replace="fragments/include :: tableHook (tableName='example', entityName=${rootName})"></div>
   <!--  FROM HERE -->
   <div th:replace="fragments/include :: notification"></div>
-
-
-
-  
 <style>
 
 
@@ -88,26 +86,42 @@
   
   
 
-    <title>Company Types</title>
+    <title>Companies</title>
   </head>
   <body>
     <div class="container">
-    <h2><strong>Company Types</strong></h2>
+    <h2><strong>Companies</strong></h2>
       <table id="example" class="display nowrap" width="100%">
         <thead>
           <tr>
 			<th>ID</th>
 			<th>Deleted</th>
-			<th>Description</th>
+			
+			<th>Company Type</th>
+			<th>Name</th>
+	
+			<th>CUIT</th>
+			<th>Direccion</th>
+			<th>Telephone1</th>
+			<th>Email</th>
+			
 			<th>Actions</th>         
 			</tr>
         </thead>
 
         <tfoot>
           <tr>
-            <th>ID</th>
-            <th>Deleted</th>
-			<th>Description</th>
+    		<th>ID</th>
+			<th>Deleted</th>
+			
+			<th>Company Type</th>
+			<th>Name</th>
+	
+			<th>CUIT</th>
+			<th>Direccion</th>
+			<th>Telephone1</th>
+			<th>Email</th>
+			
 			<th>Actions</th>
           </tr>
         </tfoot>

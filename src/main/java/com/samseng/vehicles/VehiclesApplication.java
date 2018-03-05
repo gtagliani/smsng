@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @SpringBootApplication
 @ComponentScan("com.samseng")
 @EnableScheduling
-//@PropertySource("classpath:messages.properties")
+@PropertySource("classpath:messages.properties")
 public class VehiclesApplication  {
 
 	public static void main(String[] args) {
