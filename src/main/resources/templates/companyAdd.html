@@ -20,7 +20,9 @@
   $(document).ready( function () {
 	  alert("Company ADD Here");
 	  $(document).ready(function() {
-    		$('#companies').select2();
+    		$('#companies').select2({
+    			minimumResultsForSearch: Infinity
+    		});
 	  });
 	  
 		$("#saveButton").click(function(){
@@ -82,14 +84,14 @@
                         <div class="form-group row">                                                          
                             <div class="col-md-10">
                                 <label>Name</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('name')}? 'is-invalid':'is-valid'" th:field="${company.name}" autofocus="autofocus" th:placeholder="company.name.placeholder" maxlength="100"/>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('name')}? 'is-invalid':'is-valid'" th:field="${company.name}" autofocus="autofocus" th:placeholder="#{company.name.placeholder}" maxlength="100"/>
                             </div>
                         </div>
                         
                         <div class="form-group row">                                                          
-                            <div class="col-md-10">
+                            <div class="col-md-5">
                                 <label>Company Type</label>
-                                <select id="companies" th:field="*{companyType}">
+                                <select id="companies" th:field="*{companyType}" th:classappend="${#fields.hasErrors('companyType')}? 'col-md-5 is-invalid':'col-md-5 is-valid'">
 								  <option th:each="companyType : ${allCompanyTypes}" 
 								          th:value="${companyType.id}" 
 								          th:text="${companyType.description}">Type of Company</option>
@@ -100,28 +102,28 @@
                         <div class="form-group row">                                                          
                             <div class="col-md-5">
                                 <label>Cuit</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('taxesNumberId')}? 'is-invalid':'is-valid'" th:field="*{taxesNumberId}" autofocus="autofocus" th:placeholder="company.taxesNumberId.placeholder" maxlength="20"/>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('taxesNumberId')}? 'is-invalid':'is-valid'" th:field="*{taxesNumberId}" autofocus="autofocus" th:placeholder="#{company.taxesNumberId.placeholder}" maxlength="20"/>
                             </div>
                         </div>
                         
                         <div class="form-group row">                                                          
                             <div class="col-md-10">
                                 <label>Address</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('address')}? 'is-invalid':'is-valid'" th:field="*{address}" autofocus="autofocus" th:placeholder="company.address.placeholder" maxlength="100"/>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('address')}? 'is-invalid':'is-valid'" th:field="*{address}" autofocus="autofocus" th:placeholder="#{company.address.placeholder}" maxlength="100"/>
                             </div>
                         </div>
                         
                         <div class="form-group row">                                                          
                             <div class="col-md-10">
                                 <label>Telefono</label>
-                                <input  class="form-control input-sm" th:classappend="${#fields.hasErrors('address')}? 'is-invalid':'is-valid'" type="tel" th:field="*{telephone1}" autofocus="autofocus" th:placeholder="company.telephone1.placeholder" maxlength="30"/>
+                                <input  class="form-control input-sm" th:classappend="${#fields.hasErrors('address')}? 'is-invalid':'is-valid'" type="tel" th:field="*{telephone1}" autofocus="autofocus" th:placeholder="#{company.telephone1.placeholder}" maxlength="30"/>
                             </div>
                         </div>
                         
                         <div class="form-group row">                                                          
                             <div class="col-md-10">
                                 <label>E-Mail</label>
-                                <input class="form-control input-sm" th:classappend="${#fields.hasErrors('email')}? 'is-invalid':'is-valid'" type="email" th:field="*{email}" autofocus="autofocus" th:placeholder="company.email.placeholder" maxlength="30"/>
+                                <input class="form-control input-sm" th:classappend="${#fields.hasErrors('email')}? 'is-invalid':'is-valid'" type="email" th:field="*{email}" autofocus="autofocus" th:placeholder="#{company.email.placeholder}" maxlength="30"/>
                             </div>
                         </div>
                                                 

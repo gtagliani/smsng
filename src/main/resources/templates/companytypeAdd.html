@@ -77,7 +77,7 @@
                         <div class="form-group row">                                                          
                             <div class="col-md-10">
                                 <label>Description</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('description')}? 'is-invalid':'is-valid'" th:field="*{description}" autofocus="autofocus" th:placeholder="companyType.description.placeholder" maxlength="50"/>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('description')}? 'is-invalid':'is-valid'" th:field="*{description}" autofocus="autofocus" th:placeholder="#{companytype.description.placeholder}" maxlength="50"/>
                             </div>
                         </div>
                                                 
