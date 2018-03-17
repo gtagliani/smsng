@@ -75,15 +75,15 @@
                             </div>
                          </div>
                         <div class="form-group row">                                                          
-                            <div class="col-md-15">
+                            <div class="col-md-10">
                                 <label>Short Description</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('shorDescription')}? 'is-invalid':'is-valid'" th:field="*{shortDescription}" autofocus="autofocus" th:placeholder="briefing.description.placeholder" maxlength="50"/>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('shortDescription')}? 'is-invalid':'is-valid'" th:field="*{shortDescription}" autofocus="autofocus" th:placeholder="#{briefing.shortDescription.placeholder}" maxlength="50"/>
                             </div>
                         </div>
                         <div class="form-group row">                                                          
-                            <div class="col-md-15">
-                                <label>Long Description</label>
-                                <textarea rows="3" class="form-control input-sm" th:classappend="${#fields.hasErrors('longDescription')}? 'is-invalid':'is-valid'" th:field="*{longDescription}" autofocus="autofocus" th:placeholder="briefing.description.placeholder" maxlength="300"/>
+                            <div class="col-md-10">
+                                <label>Description</label>
+                                <textarea  class="form-control input-sm" th:classappend="${#fields.hasErrors('longDescription')}? 'is-invalid':'is-valid'" th:field="*{longDescription}" autofocus="autofocus" th:placeholder="#{briefing.description.placeholder}" rows="3"/>
                             </div>
                         </div>
                                                 

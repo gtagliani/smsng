@@ -12,8 +12,6 @@ import com.samseng.vehicles.model.CompanyType;
 
 
 @Repository
-public interface BriefingQuestionsJpaRepository extends LogicDeleteJpaRepository<CompanyType, Integer> {
+public interface BriefingQuestionsJpaRepository extends LogicDeleteJpaRepository<BriefingQuestions, Integer> {
 	
-	public List<BriefingQuestions> findFirst50ByShortDescriptionLikeOrderByDescription(String filter);
-
 }
