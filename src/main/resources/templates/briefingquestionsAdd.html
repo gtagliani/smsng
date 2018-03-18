@@ -17,8 +17,13 @@
 <script th:inline="javascript" type="text/javascript">
 
   $(document).ready( function () {
-	  //alert("Here");
+	  $('#briefings').select2({
+		  
+		});
+	  
+	//  alert("Here");
 		$("#saveButton").click(function(){
+			
 			
 			var ent = [[${rootName}]];
 			var mode = [[${mode}]];
@@ -59,7 +64,7 @@
             <strong th:text="${title}">TITLE</strong>
         </div>
         <div class="panel-body">
-            <form id="entityForm" class="form-horizontal" th:object="${briefing}" th:action="${mode}=='popup'?@{${'/'+rootName+'/ajax/save'}}:@{${'/'+rootName+'/save'}}" method="POST" style="margin: 10px">
+            <form id="entityForm" class="form-horizontal" th:object="${briefingQuestions}" th:action="${mode}=='popup'?@{${'/'+rootName+'/ajax/save'}}:@{${'/'+rootName+'/save'}}" method="POST" style="margin: 10px">
                 <div class="form-group">
                     <fieldset>
                         <div class="form-group row">
@@ -75,15 +80,19 @@
                             </div>
                          </div>
                         <div class="form-group row">                                                          
-                            <div class="col-md-15">
-                                <label>Short Description</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('shorDescription')}? 'is-invalid':'is-valid'" th:field="*{shortDescription}" autofocus="autofocus" th:placeholder="briefing.description.placeholder" maxlength="50"/>
+                            <div class="col-md-10">
+                                <label>Briefing</label>
+                                <select id="briefings" th:field="*{briefing}" th:classappend="${#fields.hasErrors('briefing')}? 'col-md-5 is-invalid':'col-md-5 is-valid'">
+								  <option th:each="briefing : ${allBriefings}" 
+								          th:value="${briefing.id}" 
+								          th:text="${briefing.shortDescription}">Briefing Description</option>
+								</select>
                             </div>
                         </div>
                         <div class="form-group row">                                                          
-                            <div class="col-md-15">
-                                <label>Long Description</label>
-                                <textarea rows="3" class="form-control input-sm" th:classappend="${#fields.hasErrors('longDescription')}? 'is-invalid':'is-valid'" th:field="*{longDescription}" autofocus="autofocus" th:placeholder="briefing.description.placeholder" maxlength="300"/>
+                            <div class="col-md-10">
+                                <label>Question</label>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('question')}? 'is-invalid':'is-valid'" th:field="*{question}" autofocus="autofocus" th:placeholder="#{briefingQuestions.question.placeholder}" maxlength="300"/>
                             </div>
                         </div>
                                                 

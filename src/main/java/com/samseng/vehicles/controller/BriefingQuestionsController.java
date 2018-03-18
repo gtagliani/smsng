@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.samseng.vehicles.model.BriefingQuestions;
 import com.samseng.vehicles.repository.BriefingQuestionsJpaRepository;
 import com.samseng.vehicles.services.BriefingQuestionsService;
+import com.samseng.vehicles.services.BriefingService;
 import com.samseng.vehicles.services.EventObserverJob;
 import com.samseng.vehicles.sse.EventInfo;
 
@@ -34,8 +35,8 @@ public class BriefingQuestionsController {
 	static Logger log = Logger.getLogger(BriefingQuestionsController.class.getName());
 	
 	
-	private static final String ENTITY_TYPE ="briefingCuestions";
-	private static final String ROOT_NAME = "briefingcuestions";
+	private static final String ENTITY_TYPE ="briefingQuestions";
+	private static final String ROOT_NAME = "briefingquestions";
 	
 	
 	@Value ("${briefingQuestions.titleEdit:titleEdit}")
@@ -76,6 +77,9 @@ public class BriefingQuestionsController {
 	BriefingQuestionsService service;
 	
 	@Autowired
+	BriefingService briefingService;
+	
+	@Autowired
 	EventObserverJob eventService;
 	
 	@GetMapping(TABLE_MAPPING)
@@ -100,6 +104,7 @@ public class BriefingQuestionsController {
 		log.info(ROOT_NAME + " type controller");
 		model.addAttribute(ENTITY_TYPE, entity);
 		model.addAttribute("rootName", ROOT_NAME);
+	
 		if (entity.getId() == null)
 			model.addAttribute("title", TITLE_CREATE);
 		else
@@ -164,6 +169,7 @@ public class BriefingQuestionsController {
 		add(service.findOne(id), model);
 		model.addAttribute("rootName", ROOT_NAME);
 		model.addAttribute("title", TITLE_EDIT);
+		model.addAttribute("allBriefings", briefingService.findAllNotDeleted());
 		return TEMPLATE_ADD_POPUP;
 	}
 	
@@ -172,6 +178,7 @@ public class BriefingQuestionsController {
 		log.info("ajax "+ROOT_NAME+" type controller");
 		model.addAttribute(ENTITY_TYPE, entity);
 		model.addAttribute("rootName", ROOT_NAME);
+		model.addAttribute("allBriefings", briefingService.findAllNotDeleted());
 		if (entity.getId() == null)
 			model.addAttribute("title", TITLE_CREATE);
 		else

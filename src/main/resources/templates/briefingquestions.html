@@ -12,15 +12,16 @@
   <div th:replace="fragments/include :: head_font_awesome"></div>
   <div th:replace="fragments/include :: head_bootstrap"></div>
   <div th:replace="fragments/include :: styleTable"></div>
+  <div th:replace="fragments/include :: head_select2"></div>
   
   <script th:inline="javascript" type="text/javascript">
 	/*<![CDATA[*/
 	    $(document).ready( function () {
-	    	console.log("briefingCuestions READY");
+	    	console.log("briefingQuestions READY");
     	    var mainTable = $('#example').DataTable( {
     	    	stateSave: true,
     	        "ajax": {
-    	        "url": "/briefingcuestions/table",
+    	        "url": "/briefingquestions/table",
                 "dataSrc": ""
     	        
     	    	},"columnDefs": [
@@ -34,14 +35,15 @@
 	   	            		return "<button id='edit' class='pull-right btn btn-info ml-1'><span class='fa fa-edit'></span> </button><button id='delete' class='pull-right btn btn-info'><span class='fa fa-trash'></span> </button> "
 	   	            	}
 	   	            },
-	   	            "targets": 3
+	   	            "targets": 4
 	   	            },
 	   	            
     	        ],
     	    "columns": [
-                { "data": "id" },
+    	    	{ "data": "id" },
                 { "data": "deleted" },
-                { "data": "description" },
+                { "data": "briefing.shortDescription" },
+                { "data": "question" },
                 { "data": "actions" }
                 
                 
@@ -98,7 +100,8 @@
           <tr>
 			<th>ID</th>
 			<th>Deleted</th>
-			<th>Description</th>
+			<th>Briefing</th>
+			<th>Question</th>
 			<th>Actions</th>         
 			</tr>
         </thead>
@@ -106,8 +109,9 @@
         <tfoot>
           <tr>
             <th>ID</th>
-            <th>Deleted</th>
-			<th>Description</th>
+			<th>Deleted</th>
+			<th>Briefing</th>
+			<th>Question</th>
 			<th>Actions</th>
           </tr>
         </tfoot>
@@ -122,7 +126,7 @@
     </div>
     
    
-    <div id="modalForm" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div id="modalForm" class="modal fade bd-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   	<div class="modal-dialog modal-lg">
   	
   	<div class="modal-content">
