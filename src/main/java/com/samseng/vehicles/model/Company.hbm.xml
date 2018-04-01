@@ -12,7 +12,7 @@
         <property generated="never" lazy="false" name="name" optimistic-lock="true" type="string" unique="false">
             <column length="100" name="name"/>
         </property>
-        <property generated="never" lazy="false" name="taxesNumberId" optimistic-lock="true" type="java.lang.Integer" unique="false">
+        <property generated="never" lazy="false" name="taxesNumberId" optimistic-lock="true" type="java.lang.String" unique="false">
             <column name="taxesNumberID"/>
         </property>
         <property generated="never" lazy="false" name="address" optimistic-lock="true" type="string" unique="false">

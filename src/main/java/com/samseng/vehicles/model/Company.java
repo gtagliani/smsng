@@ -32,7 +32,7 @@ public class Company extends LogicDelete implements java.io.Serializable {
 	private Integer id;
 	private CompanyType companyType;
 	private String name;
-	private Integer taxesNumberId;
+	private String taxesNumberId;
 	private String address;
 	private Integer telephone1;
 	private String email;
@@ -48,7 +48,7 @@ public class Company extends LogicDelete implements java.io.Serializable {
 		this.deleted = deleted;
 	}
 
-	public Company(CompanyType companyType, String name, Integer taxesNumberId, String address, Integer telephone1,
+	public Company(CompanyType companyType, String name, String taxesNumberId, String address, Integer telephone1,
 			String email, short deleted, Set<Vehicle> vehicles, Set<Driver> drivers) {
 		this.companyType = companyType;
 		this.name = name;
@@ -93,11 +93,11 @@ public class Company extends LogicDelete implements java.io.Serializable {
 	}
 
 	@Column(name = "taxesNumberID")
-	public Integer getTaxesNumberId() {
+	public String getTaxesNumberId() {
 		return this.taxesNumberId;
 	}
 
-	public void setTaxesNumberId(Integer taxesNumberId) {
+	public void setTaxesNumberId(String taxesNumberId) {
 		this.taxesNumberId = taxesNumberId;
 	}
 

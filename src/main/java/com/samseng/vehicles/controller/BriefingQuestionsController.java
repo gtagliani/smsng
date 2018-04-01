@@ -154,6 +154,8 @@ public class BriefingQuestionsController {
         service.save(post);
         
         add(new BriefingQuestions(), model);
+        model.addAttribute("allBriefings", briefingService.findAllNotDeleted());
+        
         ei = new EventInfo(EventObserverJob.NotifyTypes.info.toString(), "Information added succesfully to the database");
         eventService.notify(ei);
         
