@@ -9,6 +9,7 @@
   <div th:replace="fragments/include :: head_font_awesome"></div>
   <div th:replace="fragments/include :: head_bootstrap"></div>
   <div th:replace="fragments/include :: notification"></div> -->
+  
       
 </head>
 <body>
@@ -44,9 +45,10 @@
 			
 		});
 		
-	   var bindDatePicker = function() {
+		var bindDatePicker = function() {
+			
 			$(".date").datetimepicker({
-	        format:'YYYY-MM-DD',
+	        format:'DD-MM-YYYY',
 				icons: {
 					time: "fa fa-clock-o",
 					date: "fa fa-calendar",
@@ -60,7 +62,7 @@
 
 				if (! isValidDate(date)) {
 					//create date based on momentjs (we have that)
-					date = moment().format('YYYY-MM-DD');
+					date = moment().format('DD-MM-YYYY');
 				}
 
 				$(this).val(date);
@@ -126,7 +128,7 @@
                                 <select id="companies" th:field="*{company}" th:classappend="${#fields.hasErrors('company')}? 'col-md-5 is-invalid':'col-md-5 is-valid'">
 								  <option th:each="company : ${allCompanies}" 
 								          th:value="${company.id}" 
-								          th:text="${company.description}">Companies</option>
+								          th:text="${company.name}">Companies</option>
 								</select>
                             </div>
                         </div>
@@ -145,13 +147,20 @@
                             </div>
                         </div>
                         
-                        <div class="form-group row">                                                          
-                            <div class="input-group date">
-                                <label>License last valid date</label>
-                                <input type="text" class="form-control" th:classappend="${#fields.hasErrors('driverLicenceExpireDate')}? 'is-invalid':'is-valid'" th:field="*{driverLicenceExpireDate}" autofocus="autofocus" th:placeholder="#{driver.driverLicenceExpireDate.placeholder}"/>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-                                </span>
+                        <div class="container">
+                        <div class="row">
+                        <div class="col-sm-6">                                                          
+                        <div class="form-group">
+                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+<!--                                 <label>License last valid date</label> -->
+                                <input type="text" class="form-control datetimepicker-input" th:classappend="${#fields.hasErrors('driverLicenceExpireDate')}? 'is-invalid':'is-valid'" th:field="*{driverLicenceExpireDate}" autofocus="autofocus" th:placeholder="#{driver.driverLicenceExpireDate.placeholder}" data-target="#datetimepicker1"/>
+                                <span class="input-group-addon" data-target="#datetimepicker1" data-toggle="datetimepicker">
+		                        <span class="fa fa-calendar"></span>
+		                    </span>
                             </div>
+                         </div>
+                         </div>
+                        </div>
                         </div>
                         
                         <div class="form-group row">                                                          
@@ -165,7 +174,7 @@
                             <div class="input-group date">
                                 <label>ART last valid date</label>
                                 <input type="text" class="form-control" th:classappend="${#fields.hasErrors('driverLicenceExpireDate')}? 'is-invalid':'is-valid'" th:field="*{driverLicenceExpireDate}" autofocus="autofocus" th:placeholder="#{driver.driverLicenceExpireDate.placeholder}"/>
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                <span class="input-group-addon"><span class="fa fa-calendar"></span>
                                 </span>
                             </div>
                         </div>

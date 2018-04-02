@@ -10,12 +10,11 @@
 	<!--  tables help&reference: http://live.datatables.net/vetuziru/69/edit -->
 	<!-- http://matera.com/br/2017/02/16/crud-com-spring-e-thymeleaf/ -->
 
-
 	<link href="/webjars/datatables/1.10.16/css/jquery.dataTables.min.css"
 		rel="stylesheet" type="text/css" />
 	<script src="/webjars/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
 </th:block>
-<th:block th:fragment="head_font_awesome">
+<th:block th:fragment="head_font_awesome_css">
 <link href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css"
 		rel="stylesheet" media="screen">
 	</link>
@@ -23,19 +22,69 @@
 <th:block th:fragment="head_jquery">
 	<script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
 </th:block>
+<th:block th:fragment="head_moment">
+	<script src="/webjars/moment/2.21.0/min/moment.min.js"></script>
+</th:block>
+<th:block th:fragment="head_jquery_UI">
+	<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+</th:block>
+<th:block th:fragment="head_bootstrap_datetimepicker">
+	<script src="/webjars/bootstrap-datetimepicker/2.4.2/js/bootstrap-datetimepicker.min.js"></script>
+</th:block>
+<th:block th:fragment="head_bootstrap_datetimepicker_css">
+<link href="/webjars/bootstrap-datetimepicker/2.4.2/css/bootstrap-datetimepicker.min.css"
+		rel="stylesheet" />
+</th:block>
+
 <th:block th:fragment="head_select2">
-	<script src="/webjars/select2/4.0.3/js/select2.min.js"></script>
 	<link href="/webjars/select2/4.0.3/css/select2.min.css"
 		rel="stylesheet" media="screen">
 	</link>
 </th:block>
 
-<th:block th:fragment="head_bootstrap">
-	<script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	<link href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css"
+<th:block th:fragment="head_select2_css">
+	<link href="/webjars/select2/4.0.3/css/select2.min.css"
 		rel="stylesheet" media="screen">
 	</link>
 </th:block>
+
+
+<th:block th:fragment="head_bootstrap">
+	<script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</th:block>
+
+<th:block th:fragment="head_bootstrap_css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+<!-- este css tiene problemas para los campor datetimepicker -->
+<!-- 	<link href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" -->
+<!-- 		rel="stylesheet" media="screen"> -->
+<!-- 	</link> -->
+	
+</th:block>
+
+
+<th:block th:fragment="head_tether">
+	<script src="/webjars/tether/1.4.0/js/tether.min.js"></script>
+</th:block>
+
+<th:block th:fragment="head_tether_css">
+	<link href="/webjars/tether/1.4.0/css/tether.min.css"
+		rel="stylesheet" media="screen">
+	</link>
+</th:block>
+
+
+<th:block th:fragment="head_tempusdominus">
+	<script src="/webjars/github-com-tempusdominus-bootstrap-4/5.0.0-alpha16/js/tempusdominus-bootstrap-4.min.js"></script>
+</th:block>
+
+
+<th:block th:fragment="head_tempusdominus_css">
+	<link href="/webjars/github-com-tempusdominus-bootstrap-4/5.0.0-alpha16/css/tempusdominus-bootstrap-4.min.css"
+		rel="stylesheet" media="screen">
+	</link>
+</th:block>
+
 
 <th:block th:fragment="styleTable">
 	<style type="text/css">
