@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "Driver", schema = "dbo", catalog = "smsngvcls")
-public class Driver implements java.io.Serializable {
+public class Driver extends LogicDelete implements java.io.Serializable {
 
 	private Integer id;
 	private Company company;

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.samseng.vehicles.model.CompanyType;
-import com.samseng.vehicles.services.CompanyTypeService;
+import com.samseng.vehicles.model.Driver;
+import com.samseng.vehicles.services.CompanyService;
+import com.samseng.vehicles.services.DriverService;
+import com.samseng.vehicles.services.DriverService;
 import com.samseng.vehicles.services.EventObserverJob;
 import com.samseng.vehicles.sse.EventInfo;
 
@@ -68,21 +70,24 @@ public class DriverController {
 	
 	
 	@Autowired
-	CompanyTypeService service;
+	DriverService service;
+	
+	@Autowired
+	CompanyService companyService;
 	
 	@Autowired
 	EventObserverJob eventService;
 	
 	@GetMapping(TABLE_MAPPING)
 	@ResponseBody
-	public List <CompanyType> dataTable(){
+	public List <Driver> dataTable(){
 		return service.findAll();
 	}
 	
 	@GetMapping(ROOT_MAPPING)
     public String findAll(Model model) {
 		log.info(ROOT_NAME +" type controller");
-		List <CompanyType> companies = service.findAll();
+		List <Driver> companies = service.findAll();
 		model.addAttribute(ENTITY_RECORDS, companies);
 		model.addAttribute("rootName", ROOT_NAME);
 		
@@ -90,7 +95,7 @@ public class DriverController {
 	}
 	
 	@GetMapping(ADD_RECORD_MAPPING)
-    public String add(CompanyType entity,Model model) {
+    public String add(Driver entity,Model model) {
 		
 		log.info(ROOT_NAME + " type controller");
 		model.addAttribute(ENTITY_TYPE, entity);
@@ -105,8 +110,10 @@ public class DriverController {
 	
 	@GetMapping(EDIT_RECORD_MAPPING)
     public String edit(@PathVariable("id") Integer id,Model model) {
-         
+        
+		model.addAttribute("allCompanies",companyService.findAllNotDeleted());
         return add(service.findOne(id), model);
+        
     }
      
     @GetMapping(DELETE_RECORD_MAPPING_ID)
@@ -118,7 +125,7 @@ public class DriverController {
     }
 // 
     @PostMapping(DELETE_RECORD_MAPPING)
-    public String save(@Valid CompanyType post, BindingResult result,Model model) {
+    public String save(@Valid Driver post, BindingResult result,Model model) {
          
         if(result.hasErrors()) {
             return add(post, model);
@@ -130,7 +137,7 @@ public class DriverController {
     }
     
     @PostMapping(SAVE_RECORD_AJAX_MAPPING)
-    public String ajaxSave(@Valid CompanyType post, BindingResult result,Model model) {
+    public String ajaxSave(@Valid Driver post, BindingResult result,Model model) {
         
     	EventInfo ei;
     	
@@ -143,11 +150,12 @@ public class DriverController {
          
         service.save(post);
         
-        add(new CompanyType(), model);
+        add(new Driver(), model);
         ei = new EventInfo(EventObserverJob.NotifyTypes.info.toString(), "Information added succesfully to the database");
         eventService.notify(ei);
         
     }
+        model.addAttribute("allCompanies",companyService.findAllNotDeleted());
         model.addAttribute("rootName", ROOT_NAME);
         
         return TEMPLATE_ADD_POPUP;
@@ -159,11 +167,12 @@ public class DriverController {
 		add(service.findOne(id), model);
 		model.addAttribute("rootName", ROOT_NAME);
 		model.addAttribute("title", TITLE_EDIT);
+		model.addAttribute("allCompanies",companyService.findAllNotDeleted());
 		return TEMPLATE_ADD_POPUP;
 	}
 	
 	@GetMapping(ADD_RECORD_AJAX_MAPPING)
-    public String ajaxAdd(CompanyType entity,Model model) {
+    public String ajaxAdd(Driver entity,Model model) {
 		log.info("ajax "+ROOT_NAME+" type controller");
 		model.addAttribute(ENTITY_TYPE, entity);
 		model.addAttribute("rootName", ROOT_NAME);
@@ -171,6 +180,8 @@ public class DriverController {
 			model.addAttribute("title", TITLE_CREATE);
 		else
 			model.addAttribute("title", TITLE_EDIT);
+		
+		model.addAttribute("allCompanies",companyService.findAllNotDeleted());
         return TEMPLATE_ADD_POPUP;   
     }
     
