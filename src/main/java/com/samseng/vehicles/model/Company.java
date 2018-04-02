@@ -13,6 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -30,11 +35,24 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public class Company extends LogicDelete implements java.io.Serializable {
 
 	private Integer id;
+	
+	//@NotEmpty(message="{company.companyType.error}")
 	private CompanyType companyType;
+	
+	@NotEmpty(message="{company.name.error}")
 	private String name;
+	
+	@NotEmpty(message="{company.taxNumberId.error}")
 	private String taxesNumberId;
+	
+	@NotEmpty(message="{company.address.error}")
 	private String address;
-	private Integer telephone1;
+	
+	@Pattern(regexp="(^$|[0-9].*)",message="{company.telephone1.error}")
+	private String telephone1;
+	
+	@Email(message="{company.email.error}")
+	@NotEmpty(message="{company.email.empty.error}")
 	private String email;
 	private short deleted;
 	private Set<Vehicle> vehicles = new HashSet<Vehicle>(0);
@@ -48,7 +66,7 @@ public class Company extends LogicDelete implements java.io.Serializable {
 		this.deleted = deleted;
 	}
 
-	public Company(CompanyType companyType, String name, String taxesNumberId, String address, Integer telephone1,
+	public Company(CompanyType companyType, String name, String taxesNumberId, String address, String telephone1,
 			String email, short deleted, Set<Vehicle> vehicles, Set<Driver> drivers) {
 		this.companyType = companyType;
 		this.name = name;
@@ -83,7 +101,8 @@ public class Company extends LogicDelete implements java.io.Serializable {
 		this.companyType = companyType;
 	}
 
-	@Column(name = "name", length = 100)
+	@Column(name = "name",nullable=false,unique=true, length = 100)
+	@NotBlank(message = "{companyType.description.blank}")
 	public String getName() {
 		return this.name;
 	}
@@ -111,11 +130,11 @@ public class Company extends LogicDelete implements java.io.Serializable {
 	}
 
 	@Column(name = "telephone1")
-	public Integer getTelephone1() {
+	public String getTelephone1() {
 		return this.telephone1;
 	}
 
-	public void setTelephone1(Integer telephone1) {
+	public void setTelephone1(String telephone1) {
 		this.telephone1 = telephone1;
 	}
 

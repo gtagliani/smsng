@@ -6,7 +6,7 @@
             <column name="id"/>
             <generator class="identity"/>
         </id>
-        <property generated="never" lazy="false" name="description" optimistic-lock="true" type="string" unique="false">
+        <property generated="never" lazy="false" name="description" optimistic-lock="true" type="string" unique="true">
             <column length="200" name="Description" not-null="true"/>
         </property>
         <property generated="never" lazy="false" name="deleted" optimistic-lock="true" type="short" unique="false">

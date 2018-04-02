@@ -141,6 +141,7 @@ public class CompanyController {
         if(result.hasErrors()) {
         	ei = new EventInfo(EventObserverJob.NotifyTypes.danger.toString(), "Check the input. Something is wrong.");
         	eventService.notify(ei);
+        	model.addAttribute("allCompanyTypes",ctService.findAllNotDeleted());
         	add(post, model);
         	
         } else {
@@ -163,6 +164,7 @@ public class CompanyController {
 		add(service.findOne(id), model);
 		model.addAttribute("rootName", ROOT_NAME);
 		model.addAttribute("title", TITLE_EDIT);
+		model.addAttribute("allCompanyTypes",ctService.findAllNotDeleted());
 		return TEMPLATE_ADD_POPUP;
 	}
 	
