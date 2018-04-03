@@ -91,7 +91,7 @@
                         <div class="form-group row">                                                          
                             <div class="col-md-5">
                                 <label>Company Type</label>
-                                <select id="companies" th:field="*{companyType}" th:classappend="${#fields.hasErrors('companyType')}? 'col-md-5 is-invalid':'col-md-5 is-valid'">
+                                <select id="companies" th:field="*{companyType}" th:classappend="${#fields.hasErrors('companyType')}? 'form-control js-example-basic-single is-invalid':'form-control js-example-basic-single is-valid'">
 								  <option th:each="companyType : ${allCompanyTypes}" 
 								          th:value="${companyType.id}" 
 								          th:text="${companyType.description}">Type of Company</option>
