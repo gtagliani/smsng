@@ -49,26 +49,13 @@
 		
 		var bindDatePicker = function() {
 			
-			$(".date").datetimepicker({
-	        format:'DD-MM-YYYY',
-				icons: {
-					time: "fa fa-clock-o",
-					date: "fa fa-calendar",
-					up: "fa fa-arrow-up",
-					down: "fa fa-arrow-down"
-				}
-			}).find('input:first').on("blur",function () {
-				// check if the date is correct. We can accept dd-mm-yyyy and yyyy-mm-dd.
-				// update the format if it's yyyy-mm-dd
-				var date = parseDate($(this).val());
-
-				if (! isValidDate(date)) {
-					//create date based on momentjs (we have that)
-					date = moment().format('DD-MM-YYYY');
-				}
-
-				$(this).val(date);
-			});
+			$('#datetimepicker1').datetimepicker({
+				 format: 'YYYY-MM-DD'
+	        });
+			
+			$('#datetimepicker2').datetimepicker({
+				format: 'YYYY-MM-DD'
+	        });
 		}
 		   
 	   var isValidDate = function(value, format) {

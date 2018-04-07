@@ -29,14 +29,12 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  */
 @Entity
 @Table(name = "Company", schema = "dbo", catalog = "smsngvcls")
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
+
 public class Company extends LogicDelete implements java.io.Serializable {
 
 	private Integer id;
 	
-	//@NotEmpty(message="{company.companyType.error}")
+	@JsonManagedReference
 	private CompanyType companyType;
 	
 	@NotEmpty(message="{company.name.error}")
@@ -56,6 +54,8 @@ public class Company extends LogicDelete implements java.io.Serializable {
 	private String email;
 	private short deleted;
 	private Set<Vehicle> vehicles = new HashSet<Vehicle>(0);
+	
+	@JsonBackReference
 	private Set<Driver> drivers = new HashSet<Driver>(0);
 
 	public Company() {

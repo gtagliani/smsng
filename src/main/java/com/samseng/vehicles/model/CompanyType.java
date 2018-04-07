@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
@@ -23,15 +24,13 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  */
 @Entity
 @Table(name = "CompanyType", schema = "dbo", catalog = "smsngvcls")
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "id")
 public class CompanyType extends LogicDelete implements java.io.Serializable {
 
 	private Integer id;
 	private String description;
 	private short deleted;
 	
+	@JsonBackReference
 	private Set<Company> companies = new HashSet<Company>(0);
 
 	public CompanyType() {
