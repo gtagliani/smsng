@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
-    
-    <title>Add-Edit Company Type</title>
-    
-  <div th:replace="fragments/include :: head"></div>
-  <div th:replace="fragments/include :: head_jquery"></div>
-  <div th:replace="fragments/include :: head_font_awesome"></div>
-  <div th:replace="fragments/include :: head_bootstrap"></div>
-  <div th:replace="fragments/include :: notification"></div> -->
-  
-      
+
+<title>Add-Edit Company Type</title>
+
+<div th:replace="fragments/include :: head"></div>
+<div th:replace="fragments/include :: head_jquery"></div>
+<div th:replace="fragments/include :: head_font_awesome"></div>
+<div th:replace="fragments/include :: head_bootstrap"></div>
+<div th:replace="fragments/include :: notification"></div>
+-->
+
+
 </head>
 <body>
-<div th:fragment="form (mode)">
+	<div th:fragment="form (mode)">
 
-<script th:inline="javascript" type="text/javascript">
+		<script th:inline="javascript" type="text/javascript">
 
   $(document).ready( function () {
 	  //alert("Here");
@@ -100,110 +102,154 @@
 
 
 
-	
-    <div class="panel panel-default" >
-        <div class="panel-heading">
-            <strong th:text="${title}">TITLE</strong>
-        </div>
-        <div class="panel-body">
-            <form id="entityForm" class="form-horizontal" th:object="${driver}" th:action="${mode}=='popup'?@{${'/'+rootName+'/ajax/save'}}:@{${'/'+rootName+'/save'}}" method="POST" style="margin: 10px">
-                <div class="form-group">
-                    <fieldset>
-                        <div class="form-group row">
-                            <div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
-                                <div th:each="detailedError : ${#fields.detailedErrors()}">
-                                    <span th:text="${detailedError.message}"></span>
-                                </div>
-                            </div>
-                        </div>                    
-                        <div class="form-group row">
-                            <div class="col-md-2">
-                                <input type="text" class="form-control input-sm" id="id" th:field="*{id}" readOnly="readonly"/>
-                            </div>
-                         </div>
-                         
-                         <div class="form-group row">                                                          
-                            <div class="col-md-5">
-                                <label>Company</label>
-                                <select id="companies" th:field="*{company}" th:classappend="${#fields.hasErrors('company')}? 'col-md-5 is-invalid':'col-md-5 is-valid'">
-								  <option th:each="company : ${allCompanies}" 
-								          th:value="${company.id}" 
-								          th:text="${company.name}">Companies</option>
-								</select>
-                            </div>
-                        </div>
-                         
-                        <div class="form-group row">                                                          
-                            <div class="col-md-10">
-                                <label>Document Number</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('documentNumber')}? 'is-invalid':'is-valid'" th:field="*{documentNumber}" autofocus="autofocus" th:placeholder="#{driver.documentNumber.placeholder}" maxlength="50"/>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">                                                          
-                            <div class="col-md-10">
-                                <label>Name</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('name')}? 'is-invalid':'is-valid'" th:field="*{name}" autofocus="autofocus" th:placeholder="#{driver.name.placeholder}" maxlength="50"/>
-                            </div>
-                        </div>
-                        
-                        <div class="container">
-                        <div class="row">
-                        <div class="col-sm-6">                                                          
-                        <div class="form-group">
-                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-<!--                                 <label>License last valid date</label> -->
-                                <input type="text" class="form-control datetimepicker-input" th:classappend="${#fields.hasErrors('driverLicenceExpireDate')}? 'is-invalid':'is-valid'" th:field="*{driverLicenceExpireDate}" autofocus="autofocus" th:placeholder="#{driver.driverLicenceExpireDate.placeholder}" data-target="#datetimepicker1"/>
-                                <span class="input-group-addon" data-target="#datetimepicker1" data-toggle="datetimepicker">
-		                        <span class="fa fa-calendar"></span>
-		                    </span>
-                            </div>
-                         </div>
-                         </div>
-                        </div>
-                        </div>
-                        
-                        <div class="form-group row">                                                          
-                            <div class="col-md-10">
-                                <label>License Number</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('driverLicenceNumber')}? 'is-invalid':'is-valid'" th:field="*{driverLicenceNumber}" autofocus="autofocus" th:placeholder="#{driver.driverLicenceNumber.placeholder}" maxlength="50"/>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">                                                          
-                            <div class="input-group date">
-                                <label>ART last valid date</label>
-                                <input type="text" class="form-control" th:classappend="${#fields.hasErrors('driverLicenceExpireDate')}? 'is-invalid':'is-valid'" th:field="*{driverLicenceExpireDate}" autofocus="autofocus" th:placeholder="#{driver.driverLicenceExpireDate.placeholder}"/>
-                                <span class="input-group-addon"><span class="fa fa-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">                                                          
-                            <div class="col-md-10">
-                                <label>CUIT</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('afipdata')}? 'is-invalid':'is-valid'" th:field="*{afipdata}" autofocus="autofocus" th:placeholder="#{driver.afipdata.placeholder}" maxlength="50"/>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">                                                          
-                            <div class="col-md-10">
-                                <label>Telephone</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('telephone')}? 'is-invalid':'is-valid'" th:field="*{telephone}" autofocus="autofocus" th:placeholder="#{driver.telephone.placeholder}" maxlength="50"/>
-                            </div>
-                        </div>
-                                          
-                    </fieldset>
-                </div>
-                <div class="form-group row">
-                    <button id="saveButton" class="btn btn-sm btn-primary">Save</button>
-<!--                     <a th:href="@{/}" class="btn btn-sm btn-default">Cancel</a> -->
-                </div>
-            </form>
-        </div>
-    </div>
-    </div>
-    
-    
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<strong th:text="${title}">TITLE</strong>
+			</div>
+			<div class="panel-body">
+				<form id="entityForm" class="form-horizontal" th:object="${driver}"
+					th:action="${mode}=='popup'?@{${'/'+rootName+'/ajax/save'}}:@{${'/'+rootName+'/save'}}"
+					method="POST" style="margin: 10px">
+					<div class="form-group">
+						<fieldset>
+							<div class="form-group row">
+								<div class="alert alert-danger"
+									th:if="${#fields.hasAnyErrors()}">
+									<div th:each="detailedError : ${#fields.detailedErrors()}">
+										<span th:text="${detailedError.message}"></span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-2">
+									<input type="text" class="form-control input-sm" id="id"
+										th:field="*{id}" readOnly="readonly" />
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-10">
+									<label>Company</label> <select id="companies"
+										th:field="*{company}"
+										class="form-control js-example-basic-single"
+										th:classappend="${#fields.hasErrors('company')}? 'is-invalid':'is-valid'">
+										<option th:each="company : ${allCompanies}"
+											th:value="${company.id}" th:text="${company.name}">Companies</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-10">
+									<label>Document Number</label> <input type="text"
+										class="form-control input-sm"
+										th:classappend="${#fields.hasErrors('documentNumber')}? 'is-invalid':'is-valid'"
+										th:field="*{documentNumber}" autofocus="autofocus"
+										th:placeholder="#{driver.documentNumber.placeholder}"
+										maxlength="50" />
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-10">
+									<label>Name</label> <input type="text"
+										class="form-control input-sm"
+										th:classappend="${#fields.hasErrors('name')}? 'is-invalid':'is-valid'"
+										th:field="*{name}" autofocus="autofocus"
+										th:placeholder="#{driver.name.placeholder}" maxlength="50" />
+								</div>
+							</div>
+
+							<label>License Expire Date</label>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<div class="input-group date" id="datetimepicker1"
+											data-target-input="nearest">
+											<!--                                 <label>License last valid date</label> -->
+											<input type="text" class="form-control datetimepicker-input"
+												th:classappend="${#fields.hasErrors('driverLicenceExpireDate')}? 'is-invalid':'is-valid'"
+												th:field="*{driverLicenceExpireDate}" autofocus="autofocus"
+												th:placeholder="#{driver.driverLicenceExpireDate.placeholder}"
+												data-target="#datetimepicker1" /> <span
+												class="input-group-addon" data-target="#datetimepicker1"
+												data-toggle="datetimepicker"> <span
+												class="fa fa-calendar"></span>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<label>License Number</label>
+							<div class="form-group row">
+								<div class="col-md-10">
+									 <input type="text"
+										class="form-control input-sm"
+										th:classappend="${#fields.hasErrors('driverLicenceNumber')}? 'is-invalid':'is-valid'"
+										th:field="*{driverLicenceNumber}" autofocus="autofocus"
+										th:placeholder="#{driver.driverLicenceNumber.placeholder}"
+										maxlength="50" />
+								</div>
+							</div>
+
+							
+							<label>ART Expire Date</label>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<div class="input-group date" id="datetimepicker2"
+											data-target-input="nearest">
+
+
+											<input type="text" class="form-control datetimepicker-input"
+												th:classappend="${#fields.hasErrors('assuranceWorkRiskExpireDate')}? 'is-invalid':'is-valid'"
+												th:field="*{assuranceWorkRiskExpireDate}"
+												autofocus="autofocus"
+												th:placeholder="#{driver.assuranceWorkRiskExpireDate.placeholder}"
+												data-target="#datetimepicker2" /> <span
+												class="input-group-addon" data-target="#datetimepicker2"
+												data-toggle="datetimepicker"> <span
+												class="fa fa-calendar"></span>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-10">
+									<label>CUIT</label> <input type="text"
+										class="form-control input-sm"
+										th:classappend="${#fields.hasErrors('afipdata')}? 'is-invalid':'is-valid'"
+										th:field="*{afipdata}" autofocus="autofocus"
+										th:placeholder="#{driver.afipdata.placeholder}" maxlength="50" />
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-10">
+									<label>Telephone</label> <input type="text"
+										class="form-control input-sm"
+										th:classappend="${#fields.hasErrors('telephone')}? 'is-invalid':'is-valid'"
+										th:field="*{telephone}" autofocus="autofocus"
+										th:placeholder="#{driver.telephone.placeholder}"
+										maxlength="50" />
+								</div>
+							</div>
+						</fieldset>
+					</div>
+					<div class="form-group row">
+						<button id="saveButton" class="btn btn-sm btn-primary">Save</button>
+						<!--                     <a th:href="@{/}" class="btn btn-sm btn-default">Cancel</a> -->
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
 </body>
 </html>
