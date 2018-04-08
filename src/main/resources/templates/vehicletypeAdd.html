@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>Add-Edit Company Type</title>
+
+<div th:replace="fragments/include :: head"></div>
+<div th:replace="fragments/include :: head_jquery"></div>
+<div th:replace="fragments/include :: head_font_awesome"></div>
+<div th:replace="fragments/include :: head_bootstrap"></div>
+<div th:replace="fragments/include :: notification"></div>
+-->
+
+</head>
+<body>
+	<div th:fragment="form (mode)">
+
+		<script th:inline="javascript" type="text/javascript">
+
+  $(document).ready( function () {
+	  //alert("Here");
+		$("#saveButton").click(function(){
+			
+			var ent = [[${rootName}]];
+			var mode = [[${mode}]];
+			//alert("1 Mode: " + mode + " Entity: " + ent);
+			if (mode=='popup'){
+				//alert("2 Mode: " + mode + " Entity: " + ent);
+				   var tr = $("#form-body");
+				   var path = '/'+ent+'/ajax/save/';
+				   var form_data = $('#entityForm').serializeArray();
+				   //alert(tr.html());
+				   //alert(path);
+				   //alert(form_data);
+					tr.load(path,form_data);
+					
+					return false;
+			 } else {
+				 //alert("3 Mode: " + mode + " Entity: " + ent);
+				 $("form").submit(function(){
+					 //alert("Mode: " + mode + " Entity: " + ent);
+					 
+				    });
+			 }
+			
+		});
+  });
+
+	 	 
+		 
+	
+
+</script>
+
+
+
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<strong th:text="${title}">TITLE</strong>
+			</div>
+			<div class="panel-body">
+				<form id="entityForm" class="form-horizontal"
+					th:object="${vehicleType}"
+					th:action="${mode}=='popup'?@{${'/'+rootName+'/ajax/save'}}:@{${'/'+rootName+'/save'}}"
+					method="POST" style="margin: 10px">
+					<div class="form-group">
+						<fieldset>
+							<div class="form-group row">
+								<div class="alert alert-danger"
+									th:if="${#fields.hasAnyErrors()}">
+									<div th:each="detailedError : ${#fields.detailedErrors()}">
+										<span th:text="${detailedError.message}"></span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-2">
+									<input type="text" class="form-control input-sm" id="id"
+										th:field="*{id}" readOnly="readonly" />
+								</div>
+							</div>
+
+							<div class="form-group row">
+
+								<div class="col-md-10">
+									<label>Briefing</label> <select id="briefings"
+										th:field="*{briefing}"
+										th:classappend="${#fields.hasErrors('briefing')}? 'col-md-5 is-invalid':'col-md-5 is-valid'">
+										<option th:each="briefing : ${allBriefings}"
+											th:value="${briefing.id}"
+											th:text="${briefing.shortDescription}">Briefing</option>
+									</select>
+								</div>
+							</div>
+
+
+							<div class="form-group row">
+								<div class="col-md-10">
+									<label>Description</label> <input type="text"
+										class="form-control input-sm"
+										th:classappend="${#fields.hasErrors('description')}? 'is-invalid':'is-valid'"
+										th:field="*{description}" autofocus="autofocus"
+										th:placeholder="#{vehicletype.description.placeholder}"
+										maxlength="50" />
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-10">
+									<label>Has Trailer</label> <input type="checkbox" value="1"
+										th:field="*{hasTrailer}" />
+								</div>
+							</div>
+
+						</fieldset>
+					</div>
+					<div class="form-group row">
+						<button id="saveButton" class="btn btn-sm btn-primary">Save</button>
+						<!--                     <a th:href="@{/}" class="btn btn-sm btn-default">Cancel</a> -->
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>

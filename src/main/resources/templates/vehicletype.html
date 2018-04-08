@@ -8,26 +8,22 @@
 
   <div th:replace="fragments/include :: head"></div>
   <div th:replace="fragments/include :: head_jquery"></div>
-  <div th:replace="fragments/include :: head_tether"></div>
-  <div th:replace="fragments/include :: head_bootstrap"></div>
-  <div th:replace="fragments/include :: head_moment"></div>
-  <div th:replace="fragments/include :: head_font_awesome"></div>
-  <div th:replace="fragments/include :: head_tempusdominus"></div>
   <div th:replace="fragments/include :: head_tables"></div>
+  <div th:replace="fragments/include :: head_font_awesome"></div>
+  <div th:replace="fragments/include :: head_bootstrap"></div>
   <div th:replace="fragments/include :: styleTable"></div>
   
   <div th:replace="fragments/include :: head_bootstrap_css"></div>
   <div th:replace="fragments/include :: head_font_awesome_css"></div>
-  <div th:replace="fragments/include :: head_tempusdominus_css"></div>
   
   <script th:inline="javascript" type="text/javascript">
 	/*<![CDATA[*/
 	    $(document).ready( function () {
-	    	console.log("driver READY");
+	    	console.log("vehicleType READY");
     	    var mainTable = $('#example').DataTable( {
     	    	stateSave: true,
     	        "ajax": {
-    	        "url": "/driver/table",
+    	        "url": "/vehicletype/table",
                 "dataSrc": ""
     	        
     	    	},"columnDefs": [
@@ -41,7 +37,7 @@
 	   	            		return "<button id='edit' class='pull-right btn btn-info ml-1'><span class='fa fa-edit'></span> </button><button id='delete' class='pull-right btn btn-info'><span class='fa fa-trash'></span> </button> "
 	   	            	}
 	   	            },
-	   	            "targets": 10
+	   	            "targets": 5
 	   	            },
 	   	            
     	        ],
@@ -49,16 +45,9 @@
                 { "data": "id" },
                 { "data": "deleted" },
                 
-                { "data": "name" },
-                { "data": "driverLicenceNumber" },
-                { "data": "company.name" },
-                { "data": "documentNumber" },
-                
-                { "data": "driverLicenceExpireDate" },
-                { "data": "assuranceWorkRiskExpireDate" },
-                { "data": "afipdata" },
-                { "data": "telephone" },
-                
+                { "data": "briefingId.description" },
+                { "data": "description" },
+                { "data": "hasTrailer" },
                 { "data": "actions" }
                 
                 
@@ -105,26 +94,19 @@
   
   
 
-    <title>Drivers</title>
+    <title>Company Types</title>
   </head>
   <body>
     <div class="container">
-    <h2><strong>Drivers</strong></h2>
+    <h2><strong>Company Types</strong></h2>
       <table id="example" class="display nowrap" width="100%">
         <thead>
           <tr>
 			<th>ID</th>
 			<th>Deleted</th>
-			<th>Name</th>
-			<th>License Number</th>
-			<th>Company</th>
-			<th>Document</th>
-			
-			<th>License Date</th>
-			<th>ART Date</th>
-			<th>CUIT</th>
-			<th>Telephone</th>
-			
+			<th>Briefing</th>
+			<th>Description</th>
+			<th>Has Trailer</th>
 			<th>Actions</th>         
 			</tr>
         </thead>
@@ -133,17 +115,9 @@
           <tr>
             <th>ID</th>
 			<th>Deleted</th>
-			
-			<th>Name</th>
-			<th>License Number</th>
-			<th>Company</th>
-			<th>Document</th>
-			
-			<th>License Date</th>
-			<th>ART Date</th>
-			<th>CUIT</th>
-			<th>Telephone</th>
-			
+			<th>Briefing</th>
+			<th>Description</th>
+			<th>Has Trailer</th>
 			<th>Actions</th>
           </tr>
         </tfoot>
@@ -156,7 +130,6 @@
       </table>
       
     </div>
-    
     
    
     <div id="modalForm" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

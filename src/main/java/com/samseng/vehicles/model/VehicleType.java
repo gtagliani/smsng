@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "VehicleType", schema = "dbo", catalog = "smsngvcls")
-public class VehicleType implements java.io.Serializable {
+public class VehicleType extends LogicDelete  implements java.io.Serializable {
 
 	private Integer id;
 	private Briefing briefing;
