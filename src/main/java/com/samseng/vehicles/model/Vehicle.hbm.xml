@@ -24,6 +24,9 @@
         <property generated="never" lazy="false" name="permissionDenegated" optimistic-lock="true" type="short" unique="false">
             <column name="permissionDenegated" not-null="true"/>
         </property>
+        <property generated="never" lazy="false" name="deleted" optimistic-lock="true" type="short" unique="false">
+            <column name="deleted" not-null="true"/>
+        </property>
         <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="vehicleRegistereds" optimistic-lock="true" sort="unsorted" table="VehicleRegistered">
             <key on-delete="noaction">
                 <column name="VehicleId" not-null="true"/>

@@ -17,9 +17,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Vehicle", schema = "dbo", catalog = "smsngvcls")
-public class Vehicle implements java.io.Serializable {
+public class Vehicle extends LogicDelete implements java.io.Serializable {
 
-	private int id;
+	private Long id;
 	private Company company;
 	private VehicleType vehicleType;
 	private String vehicleId;
@@ -27,11 +27,12 @@ public class Vehicle implements java.io.Serializable {
 	private Short needAutorization;
 	private short permissionDenegated;
 	private Set<VehicleRegistered> vehicleRegistereds = new HashSet<VehicleRegistered>(0);
+	private Short deleted;
 
 	public Vehicle() {
 	}
 
-	public Vehicle(int id, Company company, VehicleType vehicleType, String vehicleId, short permissionDenegated) {
+	public Vehicle(Long id, Company company, VehicleType vehicleType, String vehicleId, short permissionDenegated) {
 		this.id = id;
 		this.company = company;
 		this.vehicleType = vehicleType;
@@ -39,7 +40,7 @@ public class Vehicle implements java.io.Serializable {
 		this.permissionDenegated = permissionDenegated;
 	}
 
-	public Vehicle(int id, Company company, VehicleType vehicleType, String vehicleId, String trailerId,
+	public Vehicle(Long id, Company company, VehicleType vehicleType, String vehicleId, String trailerId,
 			Short needAutorization, short permissionDenegated, Set<VehicleRegistered> vehicleRegistereds) {
 		this.id = id;
 		this.company = company;
@@ -54,11 +55,11 @@ public class Vehicle implements java.io.Serializable {
 	@Id
 
 	@Column(name = "id", unique = true, nullable = false)
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -126,5 +127,18 @@ public class Vehicle implements java.io.Serializable {
 	public void setVehicleRegistereds(Set<VehicleRegistered> vehicleRegistereds) {
 		this.vehicleRegistereds = vehicleRegistereds;
 	}
+
+	@Override
+	public short getDeleted() {
+		return deleted;
+	}
+
+	@Override
+	public void setDeleted(short deleted) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 
 }
