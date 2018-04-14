@@ -24,21 +24,21 @@ public class VehicleType extends LogicDelete  implements java.io.Serializable {
 	private Integer id;
 	private Briefing briefing;
 	private String description;
-	private short hasTrailer;
-	private short deleted;
+	private Short hasTrailer = 0;
+	private short deleted = 0;
 	private Set<Vehicle> vehicles = new HashSet<Vehicle>(0);
 
 	public VehicleType() {
 	}
 
-	public VehicleType(Briefing briefing, String description, short hasTrailer, short deleted) {
+	public VehicleType(Briefing briefing, String description, Short hasTrailer, Short deleted) {
 		this.briefing = briefing;
 		this.description = description;
 		this.hasTrailer = hasTrailer;
 		this.deleted = deleted;
 	}
 
-	public VehicleType(Briefing briefing, String description, short hasTrailer, short deleted, Set<Vehicle> vehicles) {
+	public VehicleType(Briefing briefing, String description, Short hasTrailer, Short deleted, Set<Vehicle> vehicles) {
 		this.briefing = briefing;
 		this.description = description;
 		this.hasTrailer = hasTrailer;
@@ -78,11 +78,12 @@ public class VehicleType extends LogicDelete  implements java.io.Serializable {
 	}
 
 	@Column(name = "hasTrailer", nullable = false)
-	public short getHasTrailer() {
+	public Short getHasTrailer() {
 		return this.hasTrailer;
 	}
 
-	public void setHasTrailer(short hasTrailer) {
+	public void setHasTrailer(Short hasTrailer) {
+		if (hasTrailer == null) hasTrailer = 0;
 		this.hasTrailer = hasTrailer;
 	}
 

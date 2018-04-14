@@ -87,6 +87,7 @@
 								<div class="col-md-10">
 									<label>Briefing</label> <select id="briefings"
 										th:field="*{briefing}"
+										class="form-control js-example-basic-single"
 										th:classappend="${#fields.hasErrors('briefing')}? 'col-md-5 is-invalid':'col-md-5 is-valid'">
 										<option th:each="briefing : ${allBriefings}"
 											th:value="${briefing.id}"

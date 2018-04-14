@@ -25,6 +25,7 @@
     	        "ajax": {
     	        "url": "/vehicletype/table",
                 "dataSrc": ""
+                
     	        
     	    	},"columnDefs": [
 	   	            
@@ -39,13 +40,25 @@
 	   	            },
 	   	            "targets": 5
 	   	            },
+	   	           {
+   	                "render": function ( data, type, row ) {
+   	                	
+   	                	checked = '';
+   	                	if (data == 1)
+   	                		checked = 'checked';
+   	                	
+   	                    return '<div class="col-xs-1" align="center"> <div class="checkbox"><label><input type="checkbox" '+checked+' onclick="return false;"></label></div></div>';
+   	                },
+   	                "targets": 4
+	   	            }
+	   	         	
 	   	            
     	        ],
     	    "columns": [
                 { "data": "id" },
                 { "data": "deleted" },
                 
-                { "data": "briefingId.description" },
+                { "data": "briefing.shortDescription" },
                 { "data": "description" },
                 { "data": "hasTrailer" },
                 { "data": "actions" }
@@ -98,7 +111,7 @@
   </head>
   <body>
     <div class="container">
-    <h2><strong>Company Types</strong></h2>
+    <h2><strong>Vehicle Type</strong></h2>
       <table id="example" class="display nowrap" width="100%">
         <thead>
           <tr>
