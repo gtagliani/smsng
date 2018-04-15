@@ -59,7 +59,7 @@
             <strong th:text="${title}">TITLE</strong>
         </div>
         <div class="panel-body">
-            <form id="entityForm" class="form-horizontal" th:object="${companyType}" th:action="${mode}=='popup'?@{${'/'+rootName+'/ajax/save'}}:@{${'/'+rootName+'/save'}}" method="POST" style="margin: 10px">
+            <form id="entityForm" class="form-horizontal" th:object="${vehicle}" th:action="${mode}=='popup'?@{${'/'+rootName+'/ajax/save'}}:@{${'/'+rootName+'/save'}}" method="POST" style="margin: 10px">
                 <div class="form-group">
                     <fieldset>
                         <div class="form-group row">
@@ -75,11 +75,53 @@
                             </div>
                          </div>
                         <div class="form-group row">                                                          
-                            <div class="col-md-10">
-                                <label>Description</label>
-                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('description')}? 'is-invalid':'is-valid'" th:field="*{description}" autofocus="autofocus" th:placeholder="#{companytype.description.placeholder}" maxlength="50"/>
+                            <div class="col-md-5">
+                                <label>Company</label>
+                                <select id="company" th:field="*{company}" th:classappend="${#fields.hasErrors('company')}? 'form-control js-example-basic-single is-invalid':'form-control js-example-basic-single is-valid'">
+								  <option th:each="company : ${company}" 
+								          th:value="${company.id}" 
+								          th:text="${company.name}">Company</option>
+								</select>
                             </div>
                         </div>
+                        <div class="form-group row">                                                          
+                            <div class="col-md-5">
+                                <label>Vehicle Type</label>
+                                <select id="vehicleType" th:field="*{vehicleType}" th:classappend="${#fields.hasErrors('vehicleType')}? 'form-control js-example-basic-single is-invalid':'form-control js-example-basic-single is-valid'">
+								  <option th:each="vehicleType : ${vehicleType}" 
+								          th:value="${vehicleType.id}" 
+								          th:text="${vehicleType.description}">Company</option>
+								</select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">                                                          
+                            <div class="col-md-10">
+                                <label>Vehicle ID</label>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('vehicleId')}? 'is-invalid':'is-valid'" th:field="${vehicle.vehicleId}" autofocus="autofocus" th:placeholder="#{vehicle.vehicleId.placeholder}" maxlength="100"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">                                                          
+                            <div class="col-md-10">
+                                <label>Trailer ID</label>
+                                <input type="text" class="form-control input-sm" th:classappend="${#fields.hasErrors('trailerId')}? 'is-invalid':'is-valid'" th:field="${vehicle.trailerId}" autofocus="autofocus" th:placeholder="#{vehicle.trailerId.placeholder}" maxlength="100"/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+								<div class="col-md-10">
+									<label>Need Authorization</label> <input type="checkbox" value="1"
+										th:field="*{needAutorization}" />
+								</div>
+						</div>
+						
+						<div class="form-group row">
+								<div class="col-md-10">
+									<label>Permission Denegated</label> <input type="checkbox" value="1"
+										th:field="*{permissionDenegated}" />
+								</div>
+						</div>
                                                 
                     </fieldset>
                 </div>

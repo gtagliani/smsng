@@ -4,7 +4,7 @@
     <class catalog="smsngvcls" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.samseng.vehicles.model.Vehicle" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="Vehicle">
         <id name="id" type="int">
             <column name="id"/>
-            <generator class="assigned"/>
+            <generator class="identity"/>
         </id>
         <many-to-one class="com.samseng.vehicles.model.Company" embed-xml="true" fetch="select" insert="true" name="company" not-found="exception" optimistic-lock="true" unique="false" update="true">
             <column name="CompanyId" not-null="true"/>

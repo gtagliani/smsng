@@ -19,11 +19,11 @@
   <script th:inline="javascript" type="text/javascript">
 	/*<![CDATA[*/
 	    $(document).ready( function () {
-	    	console.log("companyType READY");
+	    	console.log("vehicle READY");
     	    var mainTable = $('#example').DataTable( {
     	    	stateSave: true,
     	        "ajax": {
-    	        "url": "/companytype/table",
+    	        "url": "/vehicle/table",
                 "dataSrc": ""
     	        
     	    	},"columnDefs": [
@@ -37,18 +37,36 @@
 	   	            		return "<button id='edit' class='pull-right btn btn-info ml-1'><span class='fa fa-edit'></span> </button><button id='delete' class='pull-right btn btn-info'><span class='fa fa-trash'></span> </button> "
 	   	            	}
 	   	            },
-	   	            "targets": 3
+	   	            "targets": 8
 	   	            },
+	   	         	{
+	   	                "render": function ( data, type, row ) {
+	   	                	
+	   	                	checked = '';
+	   	                	if (data == 1)
+	   	                		checked = 'checked';
+	   	                	
+	   	                    return '<div class="col-xs-1" align="center"> <div class="checkbox"><label><input type="checkbox" '+checked+' onclick="return false;"></label></div></div>';
+	   	                },
+	   	                "targets": [6,7] 
+		   	            }
 	   	            
     	        ],
-    	    "columns": [
-                { "data": "id" },
-                { "data": "deleted" },
-                { "data": "description" },
-                { "data": "actions" }
-                
-                
-            ]});
+    	        "columns": [
+                    { "data": "id" },
+                    { "data": "deleted" },
+                    
+                    { "data": "company.name" },
+                    { "data": "vehicleType.description" },
+                    { "data": "vehicleId" },
+                    { "data": "trailerId" },
+                    { "data": "needAutorization" },
+                    { "data": "permissionDenegated" },
+                    
+                    { "data": "actions" }
+                    
+                    
+                ]});
     	      
 	    	  mainTable.column( 1 ).visible( false );
 	    	  
@@ -101,7 +119,14 @@
           <tr>
 			<th>ID</th>
 			<th>Deleted</th>
-			<th>Description</th>
+			
+			<th>Company</th>
+			<th>Vehicle Type</th>
+			<th>Identifier</th>
+			<th>Trailer Identifier</th>
+			<th>Need Authorization</th>
+			<th>Permission Denegated</th>
+			
 			<th>Actions</th>         
 			</tr>
         </thead>
@@ -109,10 +134,17 @@
         <tfoot>
           <tr>
             <th>ID</th>
-            <th>Deleted</th>
-			<th>Description</th>
+			<th>Deleted</th>
+			
+			<th>Company</th>
+			<th>Vehicle Type</th>
+			<th>Identifier</th>
+			<th>Trailer Identifier</th>
+			<th>Need Authorization</th>
+			<th>Permission Denegated</th>
+			
 			<th>Actions</th>
-          </tr>
+		 </tr>
         </tfoot>
         
 

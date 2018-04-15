@@ -122,7 +122,7 @@ public class VehicleController {
     @GetMapping(DELETE_RECORD_MAPPING_ID)
     public String delete(@PathVariable("id") Integer id, Model model) {
          
-        service.delete(id);
+        service.toggleDelete(id);
          
         return "redirect:/"+ROOT_NAME;
     }

@@ -53,6 +53,8 @@ public class Company extends LogicDelete implements java.io.Serializable {
 	@NotEmpty(message="{company.email.empty.error}")
 	private String email;
 	private short deleted;
+	
+	@JsonBackReference
 	private Set<Vehicle> vehicles = new HashSet<Vehicle>(0);
 	
 	@JsonBackReference
