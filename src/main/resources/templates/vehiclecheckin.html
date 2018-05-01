@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1" />
+<title>Insert title here</title>
+<div th:replace="fragments/include :: head"></div>
+<div th:replace="fragments/include :: head_jquery"></div>
+<div th:replace="fragments/include :: head_tables"></div>
+<div th:replace="fragments/include :: head_bootstrap"></div>
+<div th:replace="fragments/include :: head_select2"></div>
+<div th:replace="fragments/include :: styleTable"></div>
+
+<div th:replace="fragments/include :: head_jquery_validator"></div>
+
+<div th:replace="fragments/include :: head_bootstrap_css"></div>
+<div th:replace="fragments/include :: head_select2_css"></div>
+<div th:replace="fragments/include :: head_font_awesome_css"></div>
+</head>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+				<div class="page-header">
+					<div class="alert alert-info" role="alert">
+						<h4>Vehicles check in page.</h4>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Simple Form</h3>
+					</div>
+					<div class="panel-body">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Using feedback icons</h3>
+							</div>
+							<div class="panel-body">
+								<form id="checkinForm" method="post" class="form-horizontal"
+									action="">
+
+									<div class="form-group">
+										<label class="col-sm-4 control-label" for="vehicleID">Vehicle
+											Identification</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" id="vehicleID"
+												name="vehicleID" placeholder="Vehicle ID" />
+										</div>
+									</div>
+									<fieldset disabled="disabled">
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="company">Company</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="company"
+													name="company" />
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-4 control-label" for="vehicleType">vehicleType</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="vehicleType"
+													name="vehicleType" />
+											</div>
+										</div>
+									</fieldset>
+									
+									
+									<div class="form-group">
+											<label class="col-sm-4 control-label" for="vehicleType">Drivers</label>
+											<div class="col-sm-5">
+												<select multiple="multiple" class="form-control .js-example-basic-multiple js-data-example-ajax"></select>
+											</div>
+									</div>
+									
+									
+									<div class="form-group">
+										<div class="col-sm-9 col-sm-offset-4">
+											<button type="submit" class="btn btn-primary" name="checkIn"
+												value="Sign up">Check in</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$.validator.setDefaults({
+			submitHandler : function() {
+				alert("submitted!");
+			}
+		});
+
+		$(document)
+				.ready(
+						function() {
+							
+							$('.js-data-example-ajax').select2({
+								maximumSelectionLength: 2,
+								  ajax: {
+								    url: 'driver/ajax/getdrivers/1',
+								    dataType: 'json'
+							
+								  }
+								});
+
+							$("#checkinForm")
+									.validate(
+											{
+												rules : {
+													vehicleID : {
+														required : true,
+														minlength : 2,
+														remote : function() {
+															return {
+																url : "vehiclecheckin/isvehicleregistered/"
+																		+ $(
+																				'#vehicleID')
+																				.val(),
+																data : ''
+															}
+
+														}
+													}
+												},
+												messages : {
+
+													vehicleID : {
+														required : "Please enter the vehicle ID",
+														minlength : "The vehicle ID is not valid",
+														remote : "The vehicle ID does not exist in our database"
+													}
+
+												},
+												errorElement : "em",
+												errorPlacement : function(
+														error, element) {
+													console
+															.log("errorPlacement");
+													// Add the `help-block` class to the error element
+													$(element)
+															.addClass(
+																	"form-control-danger");
+													//$( element ).addClass( "form-control-feedback" );
+
+													// Add `has-feedback` class to the parent div.form-group
+													// in order to add icons to inputs
+													$(element)
+															.parents(
+																	".form-group")
+															.removeClass(
+																	"has-success")
+															.addClass(
+																	"has-danger");
+
+													if (element.prop("type") === "checkbox") {
+														error
+																.insertAfter(element
+																		.parent("label"));
+													} else {
+														error
+																.insertAfter(element);
+													}
+
+													// Add the span element, if doesn't exists, and apply the icon classes to it.
+													if (!element.next("span")[0]) {
+														var classData = "'fa fa-remove form-control-feedback'";
+														var aux = "<span class="+classData+"></span>";
+														$(aux).insertAfter(
+																element);
+													}
+												},
+												success : function(label,
+														element) {
+
+													$(element)
+															.parents(
+																	".form-group")
+															.removeClass(
+																	"has-danger")
+															.addClass(
+																	"has-success");
+													$(element)
+															.removeClass(
+																	"form-control-danger");
+													$(element)
+															.addClass(
+																	"form-control-success");
+
+													// Add the span element, if doesn't exists, and apply the icon classes to it.
+													if (!$(element)
+															.next("span")[0]) {
+														var classData = "'fa fa-ok form-control-feedback'";
+														var aux = "<span class="+classData+"></span>";
+														$(aux).insertAfter(
+																$(element));
+														console.log("Success");
+													}
+												},
+												highlight : function(element,
+														errorClass, validClass) {
+													$(element)
+															.parents(
+																	".form-group")
+															.removeClass(
+																	"has-success")
+															.addClass(
+																	"has-danger");
+
+													$(element)
+															.addClass(
+																	"form-control-danger");
+													$(element)
+															.removeClass(
+																	"form-control-success");
+
+													$(element)
+															.next("span")
+															.addClass(
+																	"fa-remove")
+															.removeClass(
+																	"fa-ok");
+													console.log("highlight");
+												},
+												unhighlight : function(element,
+														errorClass, validClass) {
+
+													$(element)
+															.parents(
+																	".form-group")
+															.removeClass(
+																	"has-danger")
+															.addClass(
+																	"has-success");
+
+													$(element)
+															.addClass(
+																	"form-control-success");
+													$(element)
+															.removeClass(
+																	"form-control-danger");
+
+													$(element)
+															.next("span")
+															.addClass("fa-ok")
+															.removeClass(
+																	"fa-remove");
+													console.log("UNhighlight");
+												}
+											});
+						});
+	</script>
+</body>
+</html>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.samseng.select2.dto.Select2RootStructure;
 import com.samseng.vehicles.model.Driver;
 import com.samseng.vehicles.services.CompanyService;
 import com.samseng.vehicles.services.DriverService;
@@ -184,5 +185,11 @@ public class DriverController {
 		model.addAttribute("allCompanies",companyService.findAllNotDeleted());
         return TEMPLATE_ADD_POPUP;   
     }
+	
+	@GetMapping(ROOT_MAPPING_AJAX+"/getdrivers/{companyId}")
+	@ResponseBody
+	public Select2RootStructure getDrivers(@PathVariable("companyId") Long companyID) {
+		return service.getDrivers(1L);
+	}
     
 }
