@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.samseng.vehicles.model.Briefing;
+import com.samseng.vehicles.model.BriefingQuestions;
 import com.samseng.vehicles.services.BriefingService;
 import com.samseng.vehicles.services.EventObserverJob;
 import com.samseng.vehicles.sse.EventInfo;
@@ -174,5 +175,7 @@ public class BriefingController {
 			model.addAttribute("title", TITLE_EDIT);
         return TEMPLATE_ADD_POPUP;   
     }
+	
+	
     
 }

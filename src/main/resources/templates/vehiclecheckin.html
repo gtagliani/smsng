@@ -18,96 +18,216 @@
 </head>
 <body>
 
-	<div class="container">
+	<div class="container-fluid">
+
 		<div class="row">
-			<div class="col-sm-8 col-sm-offset-2">
+			<div class="col-md-8 col-md-offset-2 panel">
 				<div class="page-header">
 					<div class="alert alert-info" role="alert">
 						<h4>Vehicles check in page.</h4>
 					</div>
 				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Simple Form</h3>
-					</div>
-					<div class="panel-body">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title">Using feedback icons</h3>
-							</div>
-							<div class="panel-body">
-								<form id="checkinForm" method="post" class="form-horizontal"
-									action="">
 
-									<div class="form-group">
-										<label class="col-sm-4 control-label" for="vehicleID">Vehicle
-											Identification</label>
-										<div class="col-sm-5">
-											<input type="text" class="form-control" id="vehicleID"
-												name="vehicleID" placeholder="Vehicle ID" />
-										</div>
-									</div>
-									<fieldset disabled="disabled">
-										<div class="form-group">
-											<label class="col-sm-4 control-label" for="company">Company</label>
-											<div class="col-sm-5">
-												<input type="text" class="form-control" id="company"
-													name="company" />
-											</div>
-										</div>
 
-										<div class="form-group">
-											<label class="col-sm-4 control-label" for="vehicleType">vehicleType</label>
-											<div class="col-sm-5">
-												<input type="text" class="form-control" id="vehicleType"
-													name="vehicleType" />
-											</div>
-										</div>
-									</fieldset>
-									
-									
-									<div class="form-group">
-											<label class="col-sm-4 control-label" for="vehicleType">Drivers</label>
-											<div class="col-sm-5">
-												<select multiple="multiple" class="form-control .js-example-basic-multiple js-data-example-ajax"></select>
-											</div>
-									</div>
-									
-									
-									<div class="form-group">
-										<div class="col-sm-9 col-sm-offset-4">
-											<button type="submit" class="btn btn-primary" name="checkIn"
-												value="Sign up">Check in</button>
-										</div>
-									</div>
-								</form>
+				<div class="panel-heading">
+					<h3 class="panel-title">Samseng Entrada de Vehiculos</h3>
+				</div>
+				<div class="panel-body">
+					<form id="checkinForm" method="post" class="form-horizontal"
+						action="">
+
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="vehicleID">Identificacion
+								del vehiculo</label>
+							<div class="col-md-12">
+								<input type="text" class="form-control" id="vehicleID"
+									name="vehicleID" placeholder="Vehicle ID" />
 							</div>
 						</div>
-					</div>
-				</div>
 
+						<fieldset disabled="disabled">
+							<div class="form-group">
+								<label class="col-md-4 control-label" for="company">Empresa</label>
+								<div class="col-md-12">
+									<input type="text" class="form-control" id="company"
+										name="company" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label" for="vehicleType">Tipo
+									de vehiculo</label>
+								<div class="col-md-12">
+									<input type="text" class="form-control" id="vehicleType"
+										name="vehicleType" />
+								</div>
+							</div>
+						</fieldset>
+
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="vehicleType">Conductores
+								del vehiculo</label>
+							<div class="col-md-12">
+								<select multiple="multiple" id="vehicleType"
+									class="form-control .js-example-basic-multiple js-data-example-ajax"></select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="sector">Sector
+								de destino</label>
+							<div class="col-md-12">
+								<select id="sector"
+									class="form-control .js-example-basic-multiple js-data-example-ajax"></select>
+							</div>
+						</div>
+
+						<div class="panel-heading">
+							<h3 class="panel-title">Verificaciones</h3>
+						</div>
+						<div class="panel-body">
+
+							<ol>
+
+								<row>
+								<li>
+									<div class="form-control form-rounded">
+										<div class="col-md-12">
+											<label>Se encuentran las ruedas en la punta de los
+												ejes?</label>
+											<button id="ok" class="btn btn-success" onclick="checkOk(this);">
+												<i class="fa fa-check"></i>
+											</button>
+											<button id="problem" class="btn" onclick="checkProblem(this);">
+												<i class="fa fa-remove"></i>
+											</button>
+										</div>
+										<div id="problem-description" class="d-none">
+											<label>Describa el problema:</label> <input type="text"
+												class="col-md-4"></input>
+										</div>
+									</div>
+								</li>
+								</row>
+								
+								<row>
+								<li>
+									<div class="form-control form-rounded">
+										<div class="col-md-12">
+											<label>Los papeles de lubrificacion del marron estan al dia?</label>
+											<button class="btn">
+												<i class="fa fa-check"></i>
+											</button>
+											<button class="btn btn btn-danger">
+												<i class="fa fa-remove"></i>
+											</button>
+										</div>
+										<div>
+											<label>Describa el problema:</label> <input type="text"
+												class="col-md-4"></input>
+										</div>
+									</div>
+								</li>
+								</row>
+
+
+
+
+
+							</ol>
+						</div>
+
+
+						<div class="form-group">
+							<div class="col-md-9 col-md-offset-4">
+								<button type="submit" class="btn btn-primary" name="checkIn"
+									value="Sign up">Check in</button>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
+
+
 	<script type="text/javascript">
+	
+	var vehicleData;
+	
+	function onVehicleFound(){
+		getVehicleData(function (data){
+				vehicleData = data;
+	           console.log(JSON.stringify(vehicleData, null, 2));
+	        	$("#company").val( vehicleData[0].company.name );
+	        	$("#vehicleType").val( vehicleData[0].vehicleType.description );
+	        	prepareQuestions();
+	        	}   
+	           );
+		
+	}
+		
+	
+	
+	function onVehicleNOTFound(){
+		
+	}
+	
+	function prepareQuestions(){
+		getBriefingCuestions(function(data) {
+			console.log("questions: " +  JSON.stringify(data, null, 2));
+		});
+	}
+	
+	function getVehicleData(closure){
+		$.getJSON( "vehiclecheckin/getvehicle/" + $( "#vehicleID" ).val(),
+				closure);	
+	}
+	
+	function getBriefingCuestions(closure){
+		$.getJSON( "briefingquestions/questionsByBriefingID/" + vehicleData[0].vehicleType.briefing.id ,
+				closure);
+	}
+	
+	function checkOk(component)
+	{
+		$( component ).addClass("btn-success");
+		var parentDiv = $( component ).closest("div");
+		parentDiv.children("#problem").removeClass("btn-danger");
+		$( component ).closest("li").find("#problem-description").addClass("d-none");
+			
+	}
+	
+	function checkProblem(component)
+	{
+		
+		$( component ).addClass("btn-danger");
+		var parentDiv = $( component ).closest("div");
+		parentDiv.children("#ok").removeClass("btn-success");
+		$( component ).closest("li").find("#problem-description").removeClass("d-none");
+			
+	}
+	
 		$.validator.setDefaults({
 			submitHandler : function() {
-				alert("submitted!");
+				//alert("submitted!");
 			}
 		});
-
-		$(document)
+		
+				$(document)
 				.ready(
 						function() {
-							
+
 							$('.js-data-example-ajax').select2({
-								maximumSelectionLength: 2,
-								  ajax: {
-								    url: 'driver/ajax/getdrivers/1',
-								    dataType: 'json'
-							
-								  }
-								});
+								maximumSelectionLength : 2,
+								ajax : {
+									url : function() {var url = 'driver/ajax/getdrivers/' + vehicleData[0].company.id;console.log(url); return url;},
+									dataType : 'json'
+
+								}
+							});
 
 							$("#checkinForm")
 									.validate(
@@ -119,9 +239,7 @@
 														remote : function() {
 															return {
 																url : "vehiclecheckin/isvehicleregistered/"
-																		+ $(
-																				'#vehicleID')
-																				.val(),
+																		+ $('#vehicleID').val(),
 																data : ''
 															}
 
@@ -177,6 +295,8 @@
 												},
 												success : function(label,
 														element) {
+													
+													onVehicleFound();
 
 													$(element)
 															.parents(

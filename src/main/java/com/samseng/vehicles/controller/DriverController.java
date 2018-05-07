@@ -189,7 +189,7 @@ public class DriverController {
 	@GetMapping(ROOT_MAPPING_AJAX+"/getdrivers/{companyId}")
 	@ResponseBody
 	public Select2RootStructure getDrivers(@PathVariable("companyId") Long companyID) {
-		return service.getDrivers(1L);
+		return service.getDrivers(companyID);
 	}
     
 }

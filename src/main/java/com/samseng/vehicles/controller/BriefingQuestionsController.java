@@ -187,5 +187,11 @@ public class BriefingQuestionsController {
 			model.addAttribute("title", TITLE_EDIT);
         return TEMPLATE_ADD_POPUP;   
     }
+	
+	@GetMapping(ROOT_NAME+D+"questionsByBriefingID"+D+"{id}")
+	@ResponseBody
+    public List<BriefingQuestions> findQuestionsByBriefingID(@PathVariable("id") Integer id) {
+		return service.findByBriefingID(id);
+	}
     
 }
