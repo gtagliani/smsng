@@ -20,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Sector", schema = "dbo", catalog = "smsngvcls")
-public class Sector implements java.io.Serializable {
+public class Sector extends LogicDelete implements java.io.Serializable {
 
 	private Integer id;
 	private String description;

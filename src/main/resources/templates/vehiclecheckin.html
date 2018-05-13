@@ -70,7 +70,7 @@
 							<label class="col-md-4 control-label" for="vehicleType">Conductores
 								del vehiculo</label>
 							<div class="col-md-12">
-								<select multiple="multiple" id="vehicleType"
+								<select multiple="multiple" id="vehicleDrivers"
 									class="form-control .js-example-basic-multiple js-data-example-ajax"></select>
 							</div>
 						</div>
@@ -90,52 +90,10 @@
 						<div class="panel-body">
 
 							<ol>
-
-								<row>
-								<li>
-									<div class="form-control form-rounded">
-										<div class="col-md-12">
-											<label>Se encuentran las ruedas en la punta de los
-												ejes?</label>
-											<button id="ok" class="btn btn-success" onclick="checkOk(this);">
-												<i class="fa fa-check"></i>
-											</button>
-											<button id="problem" class="btn" onclick="checkProblem(this);">
-												<i class="fa fa-remove"></i>
-											</button>
-										</div>
-										<div id="problem-description" class="d-none">
-											<label>Describa el problema:</label> <input type="text"
-												class="col-md-4"></input>
-										</div>
-									</div>
-								</li>
-								</row>
-								
-								<row>
-								<li>
-									<div class="form-control form-rounded">
-										<div class="col-md-12">
-											<label>Los papeles de lubrificacion del marron estan al dia?</label>
-											<button class="btn">
-												<i class="fa fa-check"></i>
-											</button>
-											<button class="btn btn btn-danger">
-												<i class="fa fa-remove"></i>
-											</button>
-										</div>
-										<div>
-											<label>Describa el problema:</label> <input type="text"
-												class="col-md-4"></input>
-										</div>
-									</div>
-								</li>
-								</row>
-
-
-
-
-
+							
+								<div id="questions"> 
+								</div>
+							
 							</ol>
 						</div>
 
@@ -157,12 +115,23 @@
 	
 	var vehicleData;
 	
+	function getContextRoot(){
+		var ret = window.location.protocol;
+		ret = ret + window.location.host + "/";
+		return "";
+	}
+	
+	function setVehicleInfo(company, vehicleDescription){
+		$("#company").val( company );
+    	$("#vehicleType").val( vehicleDescription );
+	}
+	
 	function onVehicleFound(){
 		getVehicleData(function (data){
 				vehicleData = data;
-	           console.log(JSON.stringify(vehicleData, null, 2));
-	        	$("#company").val( vehicleData[0].company.name );
-	        	$("#vehicleType").val( vehicleData[0].vehicleType.description );
+// 	           console.log(JSON.stringify(vehicleData, null, 2));
+				setVehicleInfo(vehicleData[0].company.name,vehicleData[0].vehicleType.description);
+	        	
 	        	prepareQuestions();
 	        	}   
 	           );
@@ -172,22 +141,65 @@
 	
 	
 	function onVehicleNOTFound(){
-		
+		//alert("onVehicleNOTFound()");
+		$('#questions').empty();
+		$("#vehicleDrivers").val('').trigger('change');
+		setVehicleInfo("","");
 	}
 	
+	function isEmpty( el ){
+	      return !$.trim(el.html())
+	 }
+	
 	function prepareQuestions(){
+		
+		if (!isEmpty($('#questions'))){
+			return;
+		}
+		
 		getBriefingCuestions(function(data) {
-			console.log("questions: " +  JSON.stringify(data, null, 2));
+// 			console.log("questions: " +  JSON.stringify(data, null, 2));
+			
+			var question = "NOT STARTED";
+			
+			//alert("preparingQuestions");
+			
+			$.each(data, function(key,value){
+				var question = value.question;
+				var questionTemplate = `
+					<row>
+						<li>
+						<div class='form-control form-rounded'>
+							<div class='col-md-12'>
+								<label>${question}</label>
+								<button id='ok' class='btn' onclick='checkOk(this);'>
+									<i class='fa fa-check'></i>
+								</button>
+								<button id='problem' class='btn' onclick='checkProblem(this);'>
+									<i class='fa fa-remove'></i>
+								</button>
+							</div>
+							<div id='problem-description' class='d-none'>
+								<label>Describa el problema:</label> <input type='text'
+									class='col-md-4'></input>
+							</div>
+						</div>
+					</li>
+					</row>`;
+// 			    alert(questionTemplate);
+			    $( questionTemplate ).appendTo( "#questions" );
+			});
+			
 		});
 	}
 	
 	function getVehicleData(closure){
-		$.getJSON( "vehiclecheckin/getvehicle/" + $( "#vehicleID" ).val(),
+		$.getJSON( getContextRoot() + "vehiclecheckin/getvehicle/" + $( "#vehicleID" ).val(),
 				closure);	
 	}
 	
 	function getBriefingCuestions(closure){
-		$.getJSON( "briefingquestions/questionsByBriefingID/" + vehicleData[0].vehicleType.briefing.id ,
+		$.getJSON( getContextRoot() + "briefingquestions/questionsByBriefingID/" + vehicleData[0].vehicleType.briefing.id ,
 				closure);
 	}
 	
@@ -219,14 +231,28 @@
 				$(document)
 				.ready(
 						function() {
+							
 
-							$('.js-data-example-ajax').select2({
+							$('#vehicleDrivers').select2({
 								maximumSelectionLength : 2,
 								ajax : {
-									url : function() {var url = 'driver/ajax/getdrivers/' + vehicleData[0].company.id;console.log(url); return url;},
+									url : function() {var url = getContextRoot()+'driver/ajax/getdrivers/' + vehicleData[0].company.id;console.log(url); return url;},
 									dataType : 'json'
 
-								}
+								},
+								placeholder: "Select a driver"
+							    
+							});
+							
+							$('#sector').select2({
+								maximumSelectionLength : 2,
+								ajax : {
+									url : function() {var url = getContextRoot()+'sector/ajax/getsectors'; return url;},
+									dataType : 'json'
+
+								},
+								placeholder: "Select a Sector"
+							    
 							});
 
 							$("#checkinForm")
@@ -238,7 +264,7 @@
 														minlength : 2,
 														remote : function() {
 															return {
-																url : "vehiclecheckin/isvehicleregistered/"
+																url : getContextRoot() + "vehiclecheckin/isvehicleregistered/"
 																		+ $('#vehicleID').val(),
 																data : ''
 															}
@@ -260,6 +286,7 @@
 														error, element) {
 													console
 															.log("errorPlacement");
+													onVehicleNOTFound();
 													// Add the `help-block` class to the error element
 													$(element)
 															.addClass(
@@ -346,6 +373,7 @@
 															.removeClass(
 																	"fa-ok");
 													console.log("highlight");
+													onVehicleNOTFound();
 												},
 												unhighlight : function(element,
 														errorClass, validClass) {
