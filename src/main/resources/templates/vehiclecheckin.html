@@ -33,8 +33,7 @@
 					<h3 class="panel-title">Samseng Entrada de Vehiculos</h3>
 				</div>
 				<div class="panel-body">
-					<form id="checkinForm" method="post" class="form-horizontal"
-						action="">
+					<form id="checkinForm" class="form-horizontal">
 
 
 						<div class="form-group">
@@ -98,12 +97,12 @@
 						</div>
 
 
-						<div class="form-group">
+						
 							<div class="col-md-9 col-md-offset-4">
-								<button type="submit" class="btn btn-primary" name="checkIn"
-									value="Sign up">Check in</button>
+								<button onclick="mysubmit(this);false" class="btn btn-primary" name="checkIn"
+									>Check in</button>
 							</div>
-						</div>
+						
 					</form>
 				</div>
 			</div>
@@ -113,7 +112,69 @@
 
 	<script type="text/javascript">
 	
+	class Question {
+		constructor(id, response, description){
+			this.id = id;
+			this.response = response;
+			this.description = description;
+		}
+		
+	}
+	
 	var vehicleData;
+	
+	var questions = [];
+	
+	function mysubmit(component){
+		var form = $("#checkinForm");
+		formData = getFormData();
+		
+		console.log(formData);
+		
+		$.ajax({
+	          url: 'vehiclecheckin/save',
+	          type: 'POST',
+		  contentType: false,
+		  data: formData,  
+		  processData: false,
+		  cache: false,
+		  success: function (respuestaAjax) {
+		    alert('Excelente!');
+		  }
+		});
+		//action="vehiclecheckin/save"
+	}
+	
+	function getFormData(){
+// 			  "id" : null,
+// 			  "sector" : null,
+// 			  "vehicle" : null,
+// 			  "dateTimestamp" : null,
+// 			  "drivers" : [ ],
+// 			  "vehicleLogs" : [ ],
+// 			  "vehicleRegisteredCheckLists" : [ ]
+	
+		fd = new FormData();
+		fd.append("sector",$("#sector").val());
+		fd.append("vehicle",$("#vehicleID").val());
+// 		fd.append("dateTimestamp",null);
+		fd.append("drivers",$("#vehicleDrivers").val());
+// 		fd.append("vehicleLogs",[ ]);
+// 		fd.append("vehicleRegisteredCheckLists",[ ]);
+
+	//Object.keys(questions).foreach({
+	questions.forEach(function (it,index){
+		console.log("index[" + index + "]: " + it );
+		
+	});
+	
+	console.log( Object.keys(questions) );
+
+		
+		
+		return fd;
+	
+	}
 	
 	function getContextRoot(){
 		var ret = window.location.protocol;
@@ -161,35 +222,41 @@
 // 			console.log("questions: " +  JSON.stringify(data, null, 2));
 			
 			var question = "NOT STARTED";
+			questions = [];
 			
 			//alert("preparingQuestions");
 			
+			var cnt = 0;
 			$.each(data, function(key,value){
 				var question = value.question;
+				var questionID = value.id;
 				var questionTemplate = `
 					<row>
 						<li>
 						<div class='form-control form-rounded'>
 							<div class='col-md-12'>
 								<label>${question}</label>
-								<button id='ok' class='btn' onclick='checkOk(this);'>
+								<button id='qok_${cnt}' class='btn' onclick='checkOk(this);'>
 									<i class='fa fa-check'></i>
 								</button>
-								<button id='problem' class='btn' onclick='checkProblem(this);'>
+								<button id='qproblem_${cnt}' class='btn' onclick='checkProblem(this);'>
 									<i class='fa fa-remove'></i>
 								</button>
 							</div>
-							<div id='problem-description' class='d-none'>
-								<label>Describa el problema:</label> <input type='text'
-									class='col-md-4'></input>
+							<div id='qproblem-description_${cnt}' class='d-none'>
+								<label>Describa el problema:</label> <input type='text' 
+									name ='label_${cnt}' class='col-md-4 form-control'></input>
 							</div>
 						</div>
 					</li>
 					</row>`;
 // 			    alert(questionTemplate);
 			    $( questionTemplate ).appendTo( "#questions" );
-			});
-			
+			    cnt ++;
+			}
+			);
+			var hidden = `<input id='questions' type='hidden' value='${cnt}'/>`;
+			$( hidden ).appendTo( "#questions" );
 		});
 	}
 	
@@ -203,23 +270,45 @@
 				closure);
 	}
 	
+	function getIndex( component ){
+		return $( component ).attr('id').split("_")[1];
+	}
+	
 	function checkOk(component)
 	{
+		var inx=""+getIndex( component );
+		var descID = "#qproblem-description_" + inx;
+		
 		$( component ).addClass("btn-success");
-		var parentDiv = $( component ).closest("div");
-		parentDiv.children("#problem").removeClass("btn-danger");
-		$( component ).closest("li").find("#problem-description").addClass("d-none");
-			
+		$("#qproblem_" + inx).removeClass("btn-danger");
+		$( descID ).addClass("d-none");
+		
+		$("#checkinForm").validate();
+		$( descID ).rules( "remove" );
+		
+		questions[inx]=1;
+		
 	}
 	
 	function checkProblem(component)
 	{
+		var inx=getIndex( component );
+		var descID = "#qproblem-description_" + inx;
 		
 		$( component ).addClass("btn-danger");
-		var parentDiv = $( component ).closest("div");
-		parentDiv.children("#ok").removeClass("btn-success");
-		$( component ).closest("li").find("#problem-description").removeClass("d-none");
-			
+		$("#qok_" + inx).removeClass("btn-success");
+		$( descID ).removeClass("d-none");
+		
+		$("#checkinForm").validate();
+		$( descID ).rules( "add", {
+			  required: true,
+			  messages: {
+			    required: "Required input"
+			  }
+			});
+
+		
+		questions[inx]=0;
 	}
 	
 		$.validator.setDefaults({
@@ -402,6 +491,7 @@
 												}
 											});
 						});
+	
 	</script>
 </body>
 </html>
