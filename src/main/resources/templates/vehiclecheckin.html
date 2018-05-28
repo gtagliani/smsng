@@ -15,6 +15,8 @@
 <div th:replace="fragments/include :: head_bootstrap_css"></div>
 <div th:replace="fragments/include :: head_select2_css"></div>
 <div th:replace="fragments/include :: head_font_awesome_css"></div>
+<div th:replace="fragments/include :: client-notification"></div>
+
 </head>
 <body>
 
@@ -126,10 +128,12 @@
 	var questions = [];
 	
 	function mysubmit(component){
-		var form = $("#checkinForm");
-		formData = getFormData();
 		
-		console.log(formData);
+		if (!validateBeforeSubmit()) {
+			return;
+		}
+		
+		formData = getFormData();
 		
 		$.ajax({
 	          url: 'vehiclecheckin/save',
@@ -145,6 +149,58 @@
 		//action="vehiclecheckin/save"
 	}
 	
+	function validateBeforeSubmit() {
+		
+		var err = "";
+		
+		console.log("1");
+		
+		if (!$("#vehicleID").val()) {
+			err = "Inform Vehicle ID";
+			clint_notify(err, "danger");
+			
+		}
+		
+		if (!$("#sector").val()) {
+			err = " Inform a sector";
+			clint_notify(err, "danger");
+		}
+		
+		if ($("#vehicleDrivers").val().length == 0) {
+			err = " Inform a driver at least";
+			clint_notify(err, "danger");
+		}
+		console.log("Hiiden questions val: " + $("#questions_hidden").val());
+		
+		if ($("#questions_hidden").val() != Object.keys(questions).length ) {
+			err = " Must inform all questions";
+			clint_notify(err, "danger");
+		} else {
+			questions.forEach(function (it,index){
+				if (it==0){ 
+					console.log("question[" + 'label_' + index + "] value : " + $('#label_' + index ).val() );
+					if ( !$('#label_' + index ).val() ){
+						err = " Must inform all negative questions";
+						clint_notify(err, "danger");
+					}
+				}
+ 				console.log("index[" + index + "]: " + it );
+				
+			});
+		}
+		
+		
+		if (err){
+			return false;
+		}
+		return true;
+		
+		
+		
+		
+		
+	}
+	
 	function getFormData(){
 // 			  "id" : null,
 // 			  "sector" : null,
@@ -156,21 +212,29 @@
 	
 		fd = new FormData();
 		fd.append("sector",$("#sector").val());
-		fd.append("vehicle",$("#vehicleID").val());
+		fd.append("vehicle",vehicleData[0].id);
 // 		fd.append("dateTimestamp",null);
 		fd.append("drivers",$("#vehicleDrivers").val());
 // 		fd.append("vehicleLogs",[ ]);
+		
 // 		fd.append("vehicleRegisteredCheckLists",[ ]);
+	var responses = [ ];
 
 	//Object.keys(questions).foreach({
-	questions.forEach(function (it,index){
-		console.log("index[" + index + "]: " + it );
+		questions.forEach(function (it,index){
+			console.log("index[" + index + "]: " + it );
+			responses.push(new Question(index,it,$('#label_' + index ).val()));
+			
+		});
 		
-	});
-	
-	console.log( Object.keys(questions) );
-
+		//fd.append("responses",JSON.stringify(responses));
+		fd.append("responses",responses);
 		
+		console.log("Form Values: " );
+		
+		for(var pair of fd.entries()) {
+			   console.log(pair[0]+ ', '+ pair[1]); 
+		}
 		
 		return fd;
 	
@@ -236,16 +300,16 @@
 						<div class='form-control form-rounded'>
 							<div class='col-md-12'>
 								<label>${question}</label>
-								<button id='qok_${cnt}' class='btn' onclick='checkOk(this);'>
+								<button id='qok_${questionID}' class='btn' onclick='checkOk(this);'>
 									<i class='fa fa-check'></i>
 								</button>
-								<button id='qproblem_${cnt}' class='btn' onclick='checkProblem(this);'>
+								<button id='qproblem_${questionID}' class='btn' onclick='checkProblem(this);'>
 									<i class='fa fa-remove'></i>
 								</button>
 							</div>
-							<div id='qproblem-description_${cnt}' class='d-none'>
+							<div id='qproblem-description_${questionID}' class='d-none'>
 								<label>Describa el problema:</label> <input type='text' 
-									name ='label_${cnt}' class='col-md-4 form-control'></input>
+									id='label_${questionID}' name ='label_${questionID}' class='col-md-4 form-control'></input>
 							</div>
 						</div>
 					</li>
@@ -255,7 +319,7 @@
 			    cnt ++;
 			}
 			);
-			var hidden = `<input id='questions' type='hidden' value='${cnt}'/>`;
+			var hidden = `<input id='questions_hidden' type='hidden' value='${cnt}'/>`;
 			$( hidden ).appendTo( "#questions" );
 		});
 	}
