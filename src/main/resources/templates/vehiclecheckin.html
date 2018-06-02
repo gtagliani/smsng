@@ -136,7 +136,7 @@
 		formData = getFormData();
 		
 		$.ajax({
-	          url: 'vehiclecheckin/save',
+	          url: 'save',
 	          type: 'POST',
 		  contentType: false,
 		  data: formData,  
@@ -325,12 +325,15 @@
 	}
 	
 	function getVehicleData(closure){
-		$.getJSON( getContextRoot() + "vehiclecheckin/getvehicle/" + $( "#vehicleID" ).val(),
+		
+		vehicleURL = getContextRoot() + "getvehicle/" + $( "#vehicleID" ).val();
+		console.log("vehicleURL: " + vehicleURL);
+		$.getJSON( vehicleURL,
 				closure);	
 	}
 	
 	function getBriefingCuestions(closure){
-		$.getJSON( getContextRoot() + "briefingquestions/questionsByBriefingID/" + vehicleData[0].vehicleType.briefing.id ,
+		$.getJSON( getContextRoot() + "/briefingquestions/questionsByBriefingID/" + vehicleData[0].vehicleType.briefing.id ,
 				closure);
 	}
 	
@@ -389,7 +392,7 @@
 							$('#vehicleDrivers').select2({
 								maximumSelectionLength : 2,
 								ajax : {
-									url : function() {var url = getContextRoot()+'driver/ajax/getdrivers/' + vehicleData[0].company.id;console.log(url); return url;},
+									url : function() {var url = getContextRoot()+'/driver/ajax/getdrivers/' + vehicleData[0].company.id;console.log(url); return url;},
 									dataType : 'json'
 
 								},
@@ -400,7 +403,7 @@
 							$('#sector').select2({
 								maximumSelectionLength : 2,
 								ajax : {
-									url : function() {var url = getContextRoot()+'sector/ajax/getsectors'; return url;},
+									url : function() {var url = getContextRoot()+'/sector/ajax/getsectors'; return url;},
 									dataType : 'json'
 
 								},
@@ -416,8 +419,10 @@
 														required : true,
 														minlength : 2,
 														remote : function() {
+															validVehicleURL = "isvehicleregistered/";
+															console.log ("validVehicleURL " + validVehicleURL);
 															return {
-																url : getContextRoot() + "vehiclecheckin/isvehicleregistered/"
+																url : validVehicleURL
 																		+ $('#vehicleID').val(),
 																data : ''
 															}
