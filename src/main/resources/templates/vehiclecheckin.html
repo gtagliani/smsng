@@ -119,6 +119,10 @@
 			this.id = id;
 			this.response = response;
 			this.description = description;
+		};
+		
+		toString () {
+			return "" + this.id + "," + this.response + "," + this.description || "";
 		}
 		
 	}
@@ -143,7 +147,7 @@
 		  processData: false,
 		  cache: false,
 		  success: function (respuestaAjax) {
-		    alert('Excelente!');
+		    alert('Excelente!' + respuestaAjax);
 		  }
 		});
 		//action="vehiclecheckin/save"
@@ -218,16 +222,15 @@
 // 		fd.append("vehicleLogs",[ ]);
 		
 // 		fd.append("vehicleRegisteredCheckLists",[ ]);
-	var responses = [ ];
-
+    responses = "";
 	//Object.keys(questions).foreach({
 		questions.forEach(function (it,index){
 			console.log("index[" + index + "]: " + it );
-			responses.push(new Question(index,it,$('#label_' + index ).val()));
+			responses +=new Question(index,it,$('#label_' + index ).val()).toString() + ";";
 			
 		});
 		
-		//fd.append("responses",JSON.stringify(responses));
+		
 		fd.append("responses",responses);
 		
 		console.log("Form Values: " );

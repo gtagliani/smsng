@@ -4,28 +4,42 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.samseng.vehicles.dto.DTOVehicleCheckin;
+import com.samseng.vehicles.editors.VehicleCheckinEditor;
+import com.samseng.vehicles.model.Driver;
 import com.samseng.vehicles.model.Vehicle;
 import com.samseng.vehicles.model.VehicleRegistered;
 import com.samseng.vehicles.services.DriverService;
+import com.samseng.vehicles.services.EventObserverJob;
 import com.samseng.vehicles.services.VehicleService;
+import com.samseng.vehicles.sse.EventInfo;
 
 @Controller
 public class VehicleCheckInController {
+	
+	static Logger log = Logger.getLogger(VehicleCheckInController.class.getName());
 	
 	@Autowired
 	VehicleService vehicleService;
 	
 	@Autowired
 	DriverService driverService;
+	
+	@Autowired
+	EventObserverJob eventService;
 	
 	@GetMapping("vehiclecheckin/isvehicleregistered/{vehicleId}")
 	@ResponseBody
@@ -45,16 +59,60 @@ public class VehicleCheckInController {
 		return vehicleService.findByVehicleIdAndNotDeleted(vehicleId);
 	}
 	
+//	@InitBinder()
+//    public void initBinder(WebDataBinder binder) {
+//	  log.info("initBinder!!");
+//      binder.registerCustomEditor(DTOVehicleCheckin.class,"vehicleIn", new VehicleCheckinEditor());
+//    }
+	
+//	@RequestMapping(value = "vehiclecheckin/save", method = RequestMethod.POST)
+//	@ResponseBody
+//	Boolean mainForm(@ModelAttribute("vehicleIn") DTOVehicleCheckin vehicleIn,
+//            BindingResult result) {
+//		Object o = result.getPropertyEditorRegistry();
+//		java.util.Map<java.lang.String,java.lang.Object> m = result.getModel();
+//		for (String k: m.keySet()) {
+//			log.info("K:" + k + " V: " + m.get(k));
+//		}
+//		Object ooo = result.getRawFieldValue("responses");
+//		return true;
+//	}
+	
 	@RequestMapping(value = "vehiclecheckin/save", method = RequestMethod.POST)
 	@ResponseBody
-	Boolean mainForm(DTOVehicleCheckin vehicleIn) {
+	Boolean mainForm(@ModelAttribute("vehicleIn") DTOVehicleCheckin vehicleIn) {
+		
+		
+		EventInfo ei = new EventInfo(EventObserverJob.NotifyTypes.info.toString(), "Un vehiculo se ha presentado al ingreso de planta.");
+		eventService.notify(ei);
 		return true;
 	}
+	
+//	@RequestMapping(value = "vehiclecheckin/save"
+//			, method = RequestMethod.POST
+//			, consumes = "text/plain")
+//	@ResponseBody
+//	Boolean mainForm(String vehicleIn) {
+//		System.out.println(vehicleIn);
+//		return true;
+//	}
+	
+	
 	
 	@GetMapping("vehiclecheckin/test")
 	@ResponseBody
 	DTOVehicleCheckin test(VehicleRegistered vehicleIn) {
 		DTOVehicleCheckin t =  new DTOVehicleCheckin();
+		
+		Driver d = new Driver();
+		d.setId(1001);
+		
+		Driver d2 = new Driver();
+		d2.setId(1001);
+		
+		t.getDrivers().add(d);
+		t.getDrivers().add(d2);
+		
 		DTOVehicleCheckin.Response r1 = new DTOVehicleCheckin.Response();
 		r1.setId(1);
 		r1.setDescription("d1");
@@ -66,7 +124,7 @@ public class VehicleCheckInController {
 		r2.setResponse((short)2);
 		
 		Set<DTOVehicleCheckin.Response> responses = new HashSet<DTOVehicleCheckin.Response>();
-		t.setResponses(responses);
+		t.setResponses("Nothing at all");
 		
 		responses.add(r1);
 		responses.add(r2);

@@ -1,6 +1,8 @@
 package com.samseng.vehicles.dto;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import com.samseng.vehicles.model.Driver;
@@ -12,17 +14,40 @@ public class DTOVehicleCheckin {
 	private Sector sector;
 	private Vehicle vehicle;
 	private Set<Driver> drivers = new HashSet<Driver>(0);
-	private Set<Response> responses = new HashSet<Response>(0);
+	private List<Response> responsesList = new LinkedList<Response>();
+	private String responses;
 	
 	
-	public Set<Response> getResponses() {
-		return responses;
-	}
-
-	public void setResponses(Set<Response> responses) {
+	
+	public void setResponses(String responses) {
 		this.responses = responses;
+		
+		processResponses();
+		
 	}
 
+	private void processResponses() {
+		
+		for (String response: this.responses.split(";")) {
+			String [] fields =response.split(",");
+			
+			Response r = new Response();
+			r.setId(Integer.valueOf(fields[0]));
+			r.setResponse(Short.valueOf(fields[1]));
+			if (fields.length == 3) {
+				r.setDescription(fields[2]);
+			} else {
+				r.setDescription("");
+			}
+			this.responsesList.add(r);
+			
+		}
+		
+	}
+
+	public List<Response> getResponsesList() {
+		return responsesList;
+	}
 
 
 

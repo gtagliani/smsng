@@ -12,7 +12,7 @@
         <many-to-one class="com.samseng.vehicles.model.VehicleStates" embed-xml="true" fetch="select" insert="true" name="vehicleStates" not-found="exception" optimistic-lock="true" unique="false" update="true">
             <column name="VehicleStatesId" not-null="true"/>
         </many-to-one>
-        <property generated="never" lazy="false" name="dateTimestamp" optimistic-lock="true" type="int" unique="false">
+        <property generated="never" lazy="false" name="dateTimestamp" optimistic-lock="true" type="timestamp" unique="false">
             <column name="dateTimestamp" not-null="true"/>
         </property>
         <property generated="never" lazy="false" name="stateChangedBy" optimistic-lock="true" type="string" unique="false">
