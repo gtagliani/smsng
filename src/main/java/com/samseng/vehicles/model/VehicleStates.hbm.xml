@@ -4,7 +4,7 @@
     <class catalog="smsngvcls" dynamic-insert="false" dynamic-update="false" mutable="true" name="com.samseng.vehicles.model.VehicleStates" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="VehicleStates">
         <id name="id" type="java.lang.Integer">
             <column name="id"/>
-            <generator class="identity"/>
+            
         </id>
         <property generated="never" lazy="false" name="state" optimistic-lock="true" type="string" unique="false">
             <column length="100" name="state"/>
