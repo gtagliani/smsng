@@ -140,7 +140,7 @@
 		formData = getFormData();
 		
 		$.ajax({
-	          url: 'save',
+	          url: getFullURL('save'),
 	          type: 'POST',
 		  contentType: false,
 		  data: formData,  
@@ -249,6 +249,12 @@
 		return "";
 	}
 	
+	function getFullURL(relative){
+		var ret = window.location + "/" + relative;
+		console.log(ret);
+		return ret;
+	}
+	
 	function setVehicleInfo(company, vehicleDescription){
 		$("#company").val( company );
     	$("#vehicleType").val( vehicleDescription );
@@ -329,7 +335,7 @@
 	
 	function getVehicleData(closure){
 		
-		vehicleURL = getContextRoot() + "getvehicle/" + $( "#vehicleID" ).val();
+		vehicleURL = getFullURL( "getvehicle/" + $( "#vehicleID" ).val());
 		console.log("vehicleURL: " + vehicleURL);
 		$.getJSON( vehicleURL,
 				closure);	
@@ -422,7 +428,8 @@
 														required : true,
 														minlength : 2,
 														remote : function() {
-															validVehicleURL = "isvehicleregistered/";
+															validVehicleURL = getFullURL("isvehicleregistered/");
+														
 															console.log ("validVehicleURL " + validVehicleURL);
 															return {
 																url : validVehicleURL

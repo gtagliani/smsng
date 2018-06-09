@@ -1,3 +1,20 @@
+
+INSERT INTO [dbo].[Sector]
+           ([description]
+           ,[deleted])
+     VALUES
+           (
+           'Sector de fabicacion'
+           ,0),
+           (
+           'Sector de conversion'
+           ,0),
+           (
+           'Playa de estacionamiento'
+           ,0);
+
+
+
 insert into dbo.VehicleStates (id,state) 
 values 
 (1,'Vehiculo aguardando ingreso a planta'),
