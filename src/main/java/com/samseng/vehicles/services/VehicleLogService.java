@@ -1,5 +1,7 @@
 package com.samseng.vehicles.services;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +18,16 @@ public class VehicleLogService {
 	@Autowired
 	VehicleLogJpaRepository vehicleRepository;
 	
+	VehicleLog addLog(VehicleRegistered vr, VehicleStates s, Date timestamp) {
+		VehicleLog ret =new VehicleLog();
+		ret.setVehicleStates(s);
+		ret.setVehicleRegistered(vr);
+		ret.setDateTimestamp(timestamp);
+		
+		return ret;
+	}
 	VehicleLog addLog(VehicleRegistered vr, VehicleStates s) {
 		
-		return null;
+		return addLog(vr,s,new Date());
 	}
 }

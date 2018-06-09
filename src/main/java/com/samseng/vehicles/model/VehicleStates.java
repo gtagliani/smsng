@@ -30,10 +30,7 @@ public class VehicleStates implements java.io.Serializable {
 		this.state = state;
 		this.vehicleLogs = vehicleLogs;
 	}
-
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-
+	
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
