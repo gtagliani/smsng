@@ -24,6 +24,7 @@ import com.samseng.vehicles.model.Vehicle;
 import com.samseng.vehicles.model.VehicleRegistered;
 import com.samseng.vehicles.services.DriverService;
 import com.samseng.vehicles.services.EventObserverJob;
+import com.samseng.vehicles.services.VehicleCheckinService;
 import com.samseng.vehicles.services.VehicleService;
 import com.samseng.vehicles.sse.EventInfo;
 
@@ -41,6 +42,9 @@ public class VehicleCheckInController {
 	@Autowired
 	EventObserverJob eventService;
 	
+	@Autowired
+	VehicleCheckinService checkinService;
+	
 	@GetMapping("vehiclecheckin/isvehicleregistered/{vehicleId}")
 	@ResponseBody
 	Boolean isVehicleRegistered(@PathVariable("vehicleId") String vehicleId) {
@@ -56,7 +60,9 @@ public class VehicleCheckInController {
 	@GetMapping("vehiclecheckin/getvehicle/{vehicleId}")
 	@ResponseBody
 	List<Vehicle> getVehicle(@PathVariable("vehicleId") String vehicleId) {
-		return vehicleService.findByVehicleIdAndNotDeleted(vehicleId);
+		List<Vehicle> aux = vehicleService.findByVehicleIdAndNotDeleted(vehicleId);
+		
+		return aux;
 	}
 	
 //	@InitBinder()
@@ -80,23 +86,14 @@ public class VehicleCheckInController {
 	
 	@RequestMapping(value = "vehiclecheckin/save", method = RequestMethod.POST)
 	@ResponseBody
-	Boolean mainForm(@ModelAttribute("vehicleIn") DTOVehicleCheckin vehicleIn) {
+	String mainForm( DTOVehicleCheckin vehicleIn) {
 		
+		String ret = checkinService.registerVehicle(vehicleIn);
 		
 		EventInfo ei = new EventInfo(EventObserverJob.NotifyTypes.info.toString(), "Un vehiculo se ha presentado al ingreso de planta.");
 		eventService.notify(ei);
-		return true;
+		return ret;
 	}
-	
-//	@RequestMapping(value = "vehiclecheckin/save"
-//			, method = RequestMethod.POST
-//			, consumes = "text/plain")
-//	@ResponseBody
-//	Boolean mainForm(String vehicleIn) {
-//		System.out.println(vehicleIn);
-//		return true;
-//	}
-	
 	
 	
 	@GetMapping("vehiclecheckin/test")

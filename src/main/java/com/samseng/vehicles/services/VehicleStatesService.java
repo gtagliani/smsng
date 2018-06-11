@@ -1,5 +1,8 @@
 package com.samseng.vehicles.services;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,4 +34,23 @@ public class VehicleStatesService {
 		return statesRepository.findOne(s.id);
 		
 	}
+	
+	public Set<VehicleStates> getFinalStates()
+	{
+		Set<VehicleStates> terminalStates = new HashSet <VehicleStates>(); 
+		terminalStates.add(getState(States.UNAUTHORIZED));
+		terminalStates.add(getState(States.OUT_PLANT));
+		
+		return terminalStates;
+	}
+	
+	public Set<Integer> getFinalStatesAsInteger()
+	{
+		Set<Integer> terminalStates = new HashSet <Integer>(); 
+		terminalStates.add(States.UNAUTHORIZED.id);
+		terminalStates.add(States.OUT_PLANT.id);
+		
+		return terminalStates;
+	}
+	
 }
