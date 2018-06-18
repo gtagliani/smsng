@@ -90,8 +90,13 @@ public class VehicleCheckInController {
 		
 		String ret = checkinService.registerVehicle(vehicleIn);
 		
-		EventInfo ei = new EventInfo(EventObserverJob.NotifyTypes.info.toString(), "Un vehiculo se ha presentado al ingreso de planta.");
-		eventService.notify(ei);
+		if (ret == null) {
+			
+			EventInfo ei = new EventInfo(EventObserverJob.NotifyTypes.info.toString(), "El vehiculo con chapa " +vehicleIn.getVehicle().getVehicleId() + " se ha presentado al ingreso de planta.");
+			eventService.notify(ei);
+			ret = "true";
+		}
+		
 		return ret;
 	}
 	

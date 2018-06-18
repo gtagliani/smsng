@@ -17,6 +17,8 @@
 <div th:replace="fragments/include :: head_font_awesome_css"></div>
 <div th:replace="fragments/include :: client-notification"></div>
 
+<div th:replace="fragments/include :: notification"></div>
+
 </head>
 <body>
 
@@ -131,6 +133,14 @@
 	
 	var questions = [];
 	
+	function clearFormData (){
+		$('#questions').empty();
+		$('#sector').val('').trigger('change');
+		$("#vehicleDrivers").val('').trigger('change');
+
+		setVehicleInfo("","");
+	}
+	
 	function mysubmit(component){
 		
 		if (!validateBeforeSubmit()) {
@@ -147,7 +157,17 @@
 		  processData: false,
 		  cache: false,
 		  success: function (respuestaAjax) {
-		    alert('Excelente!' + respuestaAjax);
+			  console.log(respuestaAjax);
+			  if (respuestaAjax == "true"){
+				  //Data Inserted
+				  clearFormData();
+				  $("#vehicleID").val("");
+			  } else {
+				  //Problem
+				  clint_notify(respuestaAjax, "danger");
+				  
+			  }
+		    
 		  }
 		});
 		//action="vehiclecheckin/save"
@@ -276,9 +296,7 @@
 	
 	function onVehicleNOTFound(){
 		//alert("onVehicleNOTFound()");
-		$('#questions').empty();
-		$("#vehicleDrivers").val('').trigger('change');
-		setVehicleInfo("","");
+		clearFormData();
 	}
 	
 	function isEmpty( el ){
@@ -288,6 +306,7 @@
 	function prepareQuestions(){
 		
 		if (!isEmpty($('#questions'))){
+			console.log("not empty questions!!!");
 			return;
 		}
 		

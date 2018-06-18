@@ -12,5 +12,5 @@ import com.samseng.vehicles.model.VehicleStates;
 
 @Repository
 public interface VehicleLogJpaRepository extends JpaRepository<VehicleLog, Integer>{
-	List<Vehicle> findByVehicleRegisteredIdAndLastLogRegisteredAndVehicleStatesIdNotIn(Integer vehicle,Short flag,Set<Integer> states);
+	List<VehicleLog> findByVehicleRegisteredIdAndLastLogRegisteredAndVehicleStatesIdNotIn(Integer vehicle,Short flag,Set<Integer> states);
 }

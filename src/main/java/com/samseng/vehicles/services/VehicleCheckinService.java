@@ -16,14 +16,12 @@ import com.samseng.vehicles.model.VehicleRegistered;
 import com.samseng.vehicles.model.VehicleRegisteredCheckList;
 import com.samseng.vehicles.repository.SectorJpaRepository;
 import com.samseng.vehicles.repository.VehicleJpaRepository;
+import com.samseng.vehicles.sse.EventInfo;
 
 @Service
 public class VehicleCheckinService {
 	
 	static Logger log = Logger.getLogger(VehicleCheckinService.class.getName());
-	
-	@Autowired
-	private VehicleService newVehicle;
 	
 	@Autowired
 	private SectorService sectorService;
@@ -42,6 +40,12 @@ public class VehicleCheckinService {
 	
 	@Autowired
 	private VehicleRegisteredService vehicleRegisteredService;
+	
+	@Autowired
+	private VehicleRegisteredCheckListService vehicleRegisteredCheckListService;
+	
+	@Autowired
+	EventObserverJob eventService;
 
 	@Transactional
 	public String registerVehicle(DTOVehicleCheckin vehicleData) {
@@ -59,6 +63,8 @@ public class VehicleCheckinService {
 		vh.setSector(sectorService.findOne(vehicleData.getSector().getId()));
 		vh.setDateTimestamp(current);
 		
+		vh.setDrivers(vehicleData.getDrivers());
+		
 		vehicleRegisteredService.save(vh);
 		
 		for (Response r : vehicleData.getResponsesList()) {
@@ -69,17 +75,21 @@ public class VehicleCheckinService {
 			vr.setPassed(r.getResponse());
 			vr.setObservations(r.getDescription());
 			
+			vehicleRegisteredCheckListService.save(vr);
+			
 			vh.getVehicleRegisteredCheckLists().add(vr);
 			
 		}
 		
 		vehicleLogService.addLog(vh, vehicleStatesService.getState(VehicleStatesService.States.WAITING));
 		
-		return "true";
+
+		
+		return null;
 		
 		} catch (Exception e) {
 			log.error(e);
-			return "Problema " + e.getMessage();
+			return  e.getMessage();
 			
 		}
 		
