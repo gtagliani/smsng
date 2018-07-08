@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  
+
+  <div th:replace="fragments/include :: head"></div>
+  <div th:replace="fragments/include :: head_jquery"></div>
+  <div th:replace="fragments/include :: head_tables"></div>
+  <div th:replace="fragments/include :: head_font_awesome"></div>
+  <div th:replace="fragments/include :: head_bootstrap"></div>
+  <div th:replace="fragments/include :: styleTable"></div>
+  
+  <div th:replace="fragments/include :: head_bootstrap_css"></div>
+  <div th:replace="fragments/include :: head_font_awesome_css"></div>
+  
+  <title th:text="'Vehiculos aguardando para ' + ${sectorName}">Vehiculos aguardando para </title>
+  
+  <script th:inline="javascript" type="text/javascript">
+	/*<![CDATA[*/
+	    $(document).ready( function () {
+	    	console.log("waitingFor READY");
+	    	var sector = /*[[${sector}]]*/ ;
+    	    var mainTable = $('#example').DataTable( {
+    	    	stateSave: true,
+    	        "ajax": {
+    	        "url": "/vehicleregistered/waitingFor/" + sector,
+                "dataSrc": ""
+    	        
+    	    	},"columnDefs": [
+	   	            
+	   	            { "render": rowProcess,
+	   	            "targets": 8,
+	   	         	
+	   	            },{ "render": vehicleIdProcess,
+	   	            "targets": 2,
+	   	         	
+	   	            },
+	   	            
+    	        ],
+    	    "columns": [
+    	    	{ "data": "date" },
+                { "data": "company" },
+                { "data": "vehicleId" },
+                { "data": "vehicleType" },
+                { "data": "sector" },
+                { "data": "state" },
+                { "data": "rsponses" },
+                { "data": "id" }
+                
+                
+            ]});
+    	      
+    	    mainTable.column([7] ).visible( false );
+ 	    	 mainTable.column([6] ).visible( false );
+ 	    	mainTable.column([5] ).visible( false );
+ 	    	mainTable.column([4] ).visible( false );
+ 	    	
+ 	    	console.log ("Settings!");
+ 		    var tbody  = $('#example tbody');
+ 		    console.log (tbody);
+ 		    tbody.on( 'click', 'button', function () {
+ 		    	
+ 		       var table = $('#example').DataTable();
+ 		       var data = table.row( $(this).parents('tr') ).data();
+ 			   var bid = this.id; // button ID
+ 			   
+ 			   if (bid=='ok'){
+ 				   alert("OK");
+ 		  		//$("#modalForm").modal();
+ 			   }else if (bid=='cancel') {
+ 				   alert("cancel");
+ 				   
+ 			   } else if (bid=='vid'){
+ 				   
+ 				   showDetails(data);
+ 				   
+ 			   }
+
+ 		    } );
+ 		    
+ 		    function showDetails(data){
+ 		    	console.log(JSON.stringify(data));
+ 		    	var tr = $("#form-body");
+ 		    	tr.empty();
+ 		    	$( prepareTable(data) ).appendTo( tr );
+ 		    	$("#modalForm").modal();
+ 		    }
+ 		    
+ 		   function prepareTable(data){
+ 			   console.log("prepareTable");
+ 			   var table = "<table class='table table-bordered'> <thead> <tr>";
+ 			   table += "<th>Verificacion</th>";
+ 			   table += "<th>Respuesta</th>";
+ 			   table += "<th>Resultado</th>";
+ 			   table += "</tr>";
+ 			   data.rsponses.forEach(val => {
+ 				  table += "<tr>";
+ 				   table += "<td>" + val.question + "</td>";
+ 				  table += "<td>" + val.response + "</td>";
+ 				 table += "<td>" ;
+ 				  if (val.positive){
+ 					 table +="<button id='qok' class='pull-right btn btn-success' onclick=''><i class='fa fa-check'></i></button>";
+					
+ 				  }else {
+ 					 table +="<button id='qproblem' class='pull-right btn btn-danger' onclick=''><i class='fa fa-remove'></i>";
+					
+ 				  }
+ 				  
+ 				 table += "</td>" ;
+ 				table += "</tr>";
+ 				 
+ 				 
+ 				   
+ 			   }
+ 			  
+ 			   );
+ 			   
+ 			   console.log(table);
+ 			  return table;
+ 			   
+ 		   }
+
+	    	  
+	    });	    
+	
+	    function vehicleIdProcess (data,type,row){
+	    	var classb = "btn-success";
+	    	row.rsponses.some( v=>{
+	    		if (!v.positive){
+	    			classb = "btn-warning";
+	    			return true;
+	    		}
+	    		return false;
+	    	})
+	    	return "<button id='vid' class='text-center btn "+classb+" ml-1'>" + row.vehicleId + "</button> "
+	    }
+	    
+	    function rowProcess (data,type,row){
+           	 	
+           		return "<button id='cancel' class='pull-right btn btn-danger'><span class='fa fa-remove'></span> </button> <button id='ok' class='pull-right btn btn-success ml-1'><span class='fa fa-check'></span> </button>"
+           	
+           }
+	    
+	    
+	    
+	    /*]]>*/
+	    </script>
+  
+  <!--  FROM HERE -->
+  <div th:replace="fragments/include :: notification"></div>
+    
+  </head>
+  <body>
+    <div class="container">
+    <h2><strong th:text="'Vehiculos aguardando para ' + ${sectorName}"> Vehiculos</strong></h2>
+      <table id="example" class="display nowrap" width="100%">
+        <thead>
+          <tr>
+			<th>Fecha</th>
+			<th>Empresa</th>
+			<th>Patente</th>
+			<th>Tipo de vehiculo</th>
+			<th>Sector</th>
+			<th>Estado</th>
+			<th>Respuestas</th>
+			<th>id</th>
+			<th>Acciones</th>         
+			</tr>
+        </thead>
+
+        <tfoot>
+          <tr>
+            <th>Fecha</th>
+			<th>Empresa</th>
+			<th>Patente</th>
+			<th>Tipo de vehiculo</th>
+			<th>Sector</th>
+			<th>Estado</th>
+			<th>Respuestas</th>
+			<th>id</th>
+			<th>Acciones</th>
+          </tr>
+        </tfoot>
+        
+      </table>
+      
+    </div>
+    
+   
+    <div id="modalForm" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  	<div class="modal-dialog modal-lg">
+  	
+  	<div class="modal-content">
+  	<div class="modal-header">
+  	<h4 class="modal-title">Informacion del Check in del vehiculo</h4>
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      
+    </div>
+    <div class="modal-body">
+  	<div id="form-body"/>
+  	</div>
+  	</div>
+  	</div>
+  	</div>
+  	
+  </body>
+</html>

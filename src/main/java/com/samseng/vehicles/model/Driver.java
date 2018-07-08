@@ -23,6 +23,7 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
@@ -63,7 +64,7 @@ public class Driver extends LogicDelete implements java.io.Serializable {
 	private String telephone;
 	
 	private short deleted;
-	private Set<VehicleRegistered> vehicleRegistereds = new HashSet<VehicleRegistered>(0);
+	@JsonBackReference private Set<VehicleRegistered> vehicleRegistereds = new HashSet<VehicleRegistered>(0);
 
 	public Driver() {
 	}

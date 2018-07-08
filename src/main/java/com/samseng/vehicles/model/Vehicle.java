@@ -37,6 +37,7 @@ public class Vehicle extends LogicDelete implements java.io.Serializable {
 	private String trailerId;
 	private Short needAutorization = 1;
 	private Short permissionDenegated = 0;
+	@JsonBackReference
 	private Set<VehicleRegistered> vehicleRegistereds = new HashSet<VehicleRegistered>(0);
 	private Short deleted=0;
 

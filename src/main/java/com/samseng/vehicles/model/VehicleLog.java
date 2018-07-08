@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.Date;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,7 +24,7 @@ public class VehicleLog implements java.io.Serializable {
 	private Integer id;
 	private VehicleRegistered vehicleRegistered;
 	private VehicleStates vehicleStates;
-	private int dateTimestamp;
+	private Date dateTimestamp;
 	private String stateChangedBy;
 	private String observations;
 	private short lastLogRegistered;
@@ -29,7 +32,7 @@ public class VehicleLog implements java.io.Serializable {
 	public VehicleLog() {
 	}
 
-	public VehicleLog(VehicleRegistered vehicleRegistered, VehicleStates vehicleStates, int dateTimestamp,
+	public VehicleLog(VehicleRegistered vehicleRegistered, VehicleStates vehicleStates, Date dateTimestamp,
 			short lastLogRegistered) {
 		this.vehicleRegistered = vehicleRegistered;
 		this.vehicleStates = vehicleStates;
@@ -37,7 +40,7 @@ public class VehicleLog implements java.io.Serializable {
 		this.lastLogRegistered = lastLogRegistered;
 	}
 
-	public VehicleLog(VehicleRegistered vehicleRegistered, VehicleStates vehicleStates, int dateTimestamp,
+	public VehicleLog(VehicleRegistered vehicleRegistered, VehicleStates vehicleStates, Date dateTimestamp,
 			String stateChangedBy, String observations, short lastLogRegistered) {
 		this.vehicleRegistered = vehicleRegistered;
 		this.vehicleStates = vehicleStates;
@@ -80,11 +83,11 @@ public class VehicleLog implements java.io.Serializable {
 	}
 
 	@Column(name = "dateTimestamp", nullable = false)
-	public int getDateTimestamp() {
+	public Date getDateTimestamp() {
 		return this.dateTimestamp;
 	}
 
-	public void setDateTimestamp(int dateTimestamp) {
+	public void setDateTimestamp(Date dateTimestamp) {
 		this.dateTimestamp = dateTimestamp;
 	}
 
